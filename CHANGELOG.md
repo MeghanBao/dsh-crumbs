@@ -6,7 +6,7 @@
 - **`source: pool | model | auto` (default `auto`).** Crumbs can now come from the curated pool, from a **side model** that generates one on the fly (ideally about what you're waiting on), or from the hybrid: model first, pool as the safety net.
   - The model call is a *side* call — it never touches the main agent's context or result. If no model surface is available, `auto` degrades to the pool, so the plugin always works.
   - Generated crumbs are marked `verified: false` and rendered with `✨` (pool crumbs stay `💡`, `verified: true`).
-- **New `src/source.ts`** with pure, tested prompt-building and response-parsing, plus a best-effort `resolveModelCaller` that probes the host for a model surface. 14 new source tests; 40 tests total.
+- **New `src/source.ts`** with pure, tested prompt-building and response-parsing, plus `resolveModelCaller` — wired to the native harness LLM service (`ctx.llm.stream` from `@deepseek-ai/dsh-llm`): it discovers a provider/model, sends a one-shot user message, and folds the streamed `text-delta` chunks into text. Generic host shapes are tried as fallbacks. `@deepseek-ai/dsh-llm` is an optional peer dependency. 16 source tests; 42 tests total.
 
 ## 0.1.0 — initial
 

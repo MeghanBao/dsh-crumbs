@@ -70,7 +70,7 @@ Everything is opt-out with safe defaults.
 
 Two things worth being explicit about:
 
-- **The model is a *side* call.** It never runs in — or writes to — the main agent's context. Generating a crumb can't pollute or slow the task you're waiting on. If the host exposes no model surface (offline, air-gapped, no endpoint), `auto` silently degrades to the pool, so the plugin always works.
+- **The model is a *side* call.** It uses the harness LLM service (`ctx.llm.stream` from `@deepseek-ai/dsh-llm`) with a one-shot user message — it never runs in, or writes to, the main agent's context, so generating a crumb can't pollute or slow the task you're waiting on. If the host exposes no model surface (offline, air-gapped, no endpoint), `auto` silently degrades to the pool, so the plugin always works.
 - **Model crumbs are unverified.** They come back marked `verified: false` and rendered with a `✨` (pool crumbs use `💡` and are `verified: true`). Generated trivia can be confidently wrong — the plugin tells the model never to cite or build on a crumb, and you should treat `✨` ones as entertainment, not fact.
 
 ## The crumb pool

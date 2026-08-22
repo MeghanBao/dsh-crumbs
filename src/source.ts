@@ -146,19 +146,24 @@ export function autoSource(primary: CrumbSource, fallback: CrumbSource): CrumbSo
 // ---------------------------------------------------------------------------
 
 /**
- * Probe the context for a usable side-model call. dsh hosts differ, so try the
- * likely shapes and normalize to a `ModelCaller`. Returns null if none is found
- * — in which case the plugin runs pool-only, exactly as before. Never throws.
+ * Probe the context for a usable side-model call. The native path is the dsh
+ * `LlmRuntime` at `ctx.llm` (a streaming `stream(GenerateOptions)` API); a few
+ * generic shapes are tried after it for other/hypothetical hosts. Returns null
+ * if none is found — in which case the plugin runs pool-only. Never throws.
  */
 export function resolveModelCaller(ctx: any): ModelCaller | null {
   try {
-    // Shape 1: ctx.model.generate({ prompt, system }) -> { text } | string
-    const gen = ctx?.model?.generate ?? ctx?.llm?.generate ?? ctx?.ai?.generate
+    // Native: @deepseek-ai/dsh-llm — ctx.llm.stream(GenerateOptions): AsyncIterable<StreamChunk>
+    if (ctx?.llm && typeof ctx.llm.stream === 'function') {
+      return makeLlmRuntimeCaller(ctx.llm)
+    }
+    // Generic shape A: ctx.model.generate({ prompt, system }) -> { text } | string
+    const gen = ctx?.model?.generate ?? ctx?.ai?.generate
     if (typeof gen === 'function') {
-      const self = ctx?.model ?? ctx?.llm ?? ctx?.ai
+      const self = ctx?.model ?? ctx?.ai
       return async (prompt, system) => normalizeText(await gen.call(self, { prompt, system }))
     }
-    // Shape 2: ctx.model.complete(prompt) -> string
+    // Generic shape B: ctx.model.complete(prompt) / ctx.llm.complete(prompt) -> string
     const cmp = ctx?.model?.complete ?? ctx?.llm?.complete
     if (typeof cmp === 'function') {
       const self = ctx?.model ?? ctx?.llm
@@ -168,6 +173,63 @@ export function resolveModelCaller(ctx: any): ModelCaller | null {
     /* fall through to null */
   }
   return null
+}
+
+/** Mint a one-off user MessageId. Branded compile-time; a plain unique string at runtime. */
+function mintMessageId(): any {
+  return `crumb-${Date.now()}-${Math.random().toString(36).slice(2)}`
+}
+
+/**
+ * Wrap the dsh LlmRuntime as a simple text ModelCaller. Discovers a provider +
+ * model once (first available) and caches it, builds a one-shot user message,
+ * and folds the streamed `text-delta` chunks into a string. Yields '' on any
+ * shortfall (no provider/model, empty stream) so the source falls back cleanly.
+ */
+function makeLlmRuntimeCaller(llm: any): ModelCaller {
+  let route: { provider: string; model: string } | null = null
+
+  const ensureRoute = async (): Promise<{ provider: string; model: string } | null> => {
+    if (route) return route
+    const providers: any[] = (typeof llm.listProviders === 'function' ? llm.listProviders() : []) ?? []
+    for (const p of providers) {
+      const provider = typeof p === 'string' ? p : p?.id ?? p?.provider
+      if (typeof provider !== 'string') continue
+      try {
+        const models: any[] = (typeof llm.listModels === 'function' ? await llm.listModels(provider) : []) ?? []
+        const first = models[0]
+        const model = typeof first === 'string' ? first : first?.id
+        if (typeof model === 'string') {
+          route = { provider, model }
+          return route
+        }
+      } catch {
+        /* try the next provider */
+      }
+    }
+    return null
+  }
+
+  return async (prompt, system) => {
+    const r = await ensureRoute()
+    if (!r) return ''
+    const options = {
+      provider: r.provider,
+      model: r.model,
+      system,
+      temperature: 0.9,
+      maxTokens: 200,
+      messages: [
+        { id: mintMessageId(), role: 'user', content: [{ type: 'text', text: prompt }], source: { kind: 'user' } },
+      ],
+    }
+    let out = ''
+    for await (const chunk of llm.stream(options)) {
+      if (chunk?.type === 'text-delta' && typeof chunk.text === 'string') out += chunk.text
+      else if (chunk?.type === 'finish') break
+    }
+    return out
+  }
 }
 
 function normalizeText(res: unknown): string {

@@ -94,7 +94,52 @@ test('poolSource returns a verified crumb from the bundled pool', async () => {
   assert.ok(out!.id) // pool crumbs carry an id
 })
 
-test('resolveModelCaller finds a generate() surface, normalizes {text}', async () => {
+test('resolveModelCaller drives the native dsh LlmRuntime stream', async () => {
+  const captured: any = {}
+  const ctx = {
+    llm: {
+      listProviders: () => [{ id: 'deepseek' }],
+      listModels: async (p: string) => {
+        captured.provider = p
+        return [{ id: 'deepseek-chat' }]
+      },
+      async *stream(options: any) {
+        captured.options = options
+        yield { type: 'block-start', index: 0, blockType: 'text' }
+        yield { type: 'text-delta', index: 0, text: 'Honey never ' }
+        yield { type: 'reasoning-delta', index: 0, text: 'IGNORE ME' }
+        yield { type: 'text-delta', index: 0, text: 'spoils.' }
+        yield { type: 'finish', reason: 'stop' }
+      },
+    },
+  }
+  const call = resolveModelCaller(ctx)
+  assert.ok(call)
+  assert.equal(await call!('Give a fact', 'be truthful'), 'Honey never spoils.')
+  // it discovered and passed the route + built a proper user message
+  assert.equal(captured.provider, 'deepseek')
+  assert.equal(captured.options.provider, 'deepseek')
+  assert.equal(captured.options.model, 'deepseek-chat')
+  assert.equal(captured.options.system, 'be truthful')
+  assert.equal(captured.options.messages[0].role, 'user')
+  assert.equal(captured.options.messages[0].content[0].text, 'Give a fact')
+})
+
+test('native caller yields empty string when no provider/model is available', async () => {
+  const ctx = {
+    llm: {
+      listProviders: () => [],
+      async *stream() {
+        /* never reached */
+      },
+    },
+  }
+  const call = resolveModelCaller(ctx)
+  assert.ok(call) // stream exists, so a caller is returned
+  assert.equal(await call!('x'), '') // ...but it can't resolve a route, so empty -> auto falls back
+})
+
+test('resolveModelCaller finds a generic generate() surface, normalizes {text}', async () => {
   const ctx = { model: { generate: async (_: any) => ({ text: 'hi from model' }) } }
   const call = resolveModelCaller(ctx)
   assert.ok(call)
