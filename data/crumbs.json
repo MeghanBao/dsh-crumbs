@@ -1,0 +1,330 @@
+{
+  "version": 1,
+  "note": "Curated, fact-checked crumbs. Each is a small true thing worth a pause. tags drive topic relevance; quiz is the optional ask-first form.",
+  "crumbs": [
+    {
+      "id": "concrete-steel-thermal",
+      "tags": ["construction", "structural", "materials"],
+      "text": "Concrete and steel have almost the same thermal expansion coefficient (~10-12 ×10⁻⁶/°C). That near-match is the physical reason reinforced concrete can heat and cool for a century without the two materials tearing apart.",
+      "quiz": {
+        "q": "Why don't the steel bars and the concrete around them separate as a building heats and cools over decades?",
+        "a": "Their thermal expansion coefficients are nearly identical (~10-12 ×10⁻⁶/°C), so they expand and contract together."
+      }
+    },
+    {
+      "id": "concrete-28-day",
+      "tags": ["construction", "materials"],
+      "text": "Concrete doesn't 'dry' — it cures by hydration, a chemical reaction that keeps gaining strength for years and can even happen underwater. The 28-day strength everyone quotes is just a standardized checkpoint, not the end.",
+      "quiz": {
+        "q": "Can concrete cure underwater?",
+        "a": "Yes — curing is hydration (a chemical reaction), not drying, so it proceeds fine underwater."
+      }
+    },
+    {
+      "id": "pantheon-dome",
+      "tags": ["construction", "structural", "history"],
+      "text": "The Pantheon in Rome still holds the record for the largest unreinforced concrete dome (~43.3 m span) — nearly 1,900 years after it was built. The Romans lightened it near the top with pumice aggregate.",
+      "quiz": {
+        "q": "What is the largest unreinforced concrete dome ever built?",
+        "a": "The Pantheon in Rome (~43.3 m), built around 126 AD."
+      }
+    },
+    {
+      "id": "roman-seawater-concrete",
+      "tags": ["construction", "materials", "science"],
+      "text": "Roman marine concrete gets stronger with age: seawater reacting with its volcanic ash grows interlocking Al-tobermorite crystals over centuries. Modern research (2017) is still trying to copy this self-strengthening trick.",
+      "quiz": {
+        "q": "What did Roman seawater concrete do that modern concrete usually can't?",
+        "a": "It grew stronger over centuries as seawater formed Al-tobermorite crystals in it."
+      }
+    },
+    {
+      "id": "otis-elevator",
+      "tags": ["construction", "history"],
+      "text": "Skyscrapers exist because of a brake. Elisha Otis's 1853 elevator safety catch — which stops the car if the cable snaps — is what made people willing to live and work far above the ground.",
+      "quiz": {
+        "q": "Which invention made tall buildings socially viable, not just structurally possible?",
+        "a": "The Otis elevator safety brake (1853), which stops the car if the cable fails."
+      }
+    },
+    {
+      "id": "first-skyscraper",
+      "tags": ["construction", "structural", "history"],
+      "text": "The building often called the first skyscraper — Chicago's Home Insurance Building (1885) — was only 10 stories. Its breakthrough wasn't height but the steel skeleton frame that carried the load instead of thick masonry walls.",
+      "quiz": {
+        "q": "What made the 1885 Home Insurance Building a 'first skyscraper' despite being only 10 stories?",
+        "a": "Its load-bearing steel frame, instead of the building's height being held up by thick masonry walls."
+      }
+    },
+    {
+      "id": "monier-gardener",
+      "tags": ["construction", "materials", "history"],
+      "text": "Reinforced concrete was patented in 1867 by Joseph Monier — a gardener who was just trying to make plant pots that wouldn't crack. He wrapped iron mesh in concrete; the building industry took it from there.",
+      "quiz": {
+        "q": "What was Joseph Monier, the man who patented reinforced concrete, actually trying to build?",
+        "a": "Crack-resistant garden pots and tubs."
+      }
+    },
+    {
+      "id": "eiffel-summer",
+      "tags": ["structural", "materials", "science"],
+      "text": "The Eiffel Tower is up to ~15 cm taller in summer than in winter. Iron expands as it heats, so the whole tower grows in the sun and leans slightly away from it.",
+      "quiz": {
+        "q": "Roughly how much does the Eiffel Tower's height change between summer and winter?",
+        "a": "About 15 cm taller in summer, from thermal expansion of the iron."
+      }
+    },
+    {
+      "id": "concrete-tension",
+      "tags": ["construction", "structural"],
+      "text": "Concrete is roughly ten times weaker in tension than in compression. That single fact is why steel rebar exists — it goes into the zones of a beam or slab that are being pulled apart, where concrete alone would crack.",
+      "quiz": {
+        "q": "Why is steel placed in the tension zones of a concrete beam rather than spread evenly?",
+        "a": "Concrete is ~10× weaker in tension than compression, so steel carries the tension the concrete can't."
+      }
+    },
+    {
+      "id": "rebar-ribbed",
+      "tags": ["construction", "materials"],
+      "text": "The ribs on rebar aren't decoration — they're there so the concrete grips the bar mechanically instead of just sticking to it. Smooth bars can slip; deformed bars transfer force through interlock.",
+      "quiz": {
+        "q": "Why is reinforcing bar ribbed instead of smooth?",
+        "a": "The ribs create a mechanical interlock so the bar can transfer force to the concrete without slipping."
+      }
+    },
+    {
+      "id": "rust-spalling",
+      "tags": ["construction", "materials", "science"],
+      "text": "When rebar rusts, the iron oxide takes up several times more volume than the original steel. That expansion is what cracks and blows off the concrete cover — the reason 'concrete cover depth' is a rule, not a suggestion.",
+      "quiz": {
+        "q": "Why does corroding rebar crack the concrete around it?",
+        "a": "Rust (iron oxide) occupies several times the volume of the original steel, and that expansion splits the concrete."
+      }
+    },
+    {
+      "id": "water-freeze-expand",
+      "tags": ["materials", "science"],
+      "text": "Water is unusual: it expands about 9% when it freezes. That one property bursts pipes, splits rock, and turns a small road crack into a pothole every winter through freeze-thaw cycling.",
+      "quiz": {
+        "q": "What everyday property of water causes potholes and burst pipes?",
+        "a": "It expands ~9% when it freezes, prying materials apart in freeze-thaw cycles."
+      }
+    },
+    {
+      "id": "gaudi-catenary",
+      "tags": ["structural", "history"],
+      "text": "Antoni Gaudí designed arches by hanging chains upside-down: a chain in tension forms a catenary, and flipped over it becomes the ideal compression arch. He ran whole cathedrals as hanging-string models before drawing them.",
+      "quiz": {
+        "q": "How did Gaudí find the ideal shape for a compression arch without a computer?",
+        "a": "He hung chains to form catenaries and inverted them — the mirror of a hanging chain is the optimal arch."
+      }
+    },
+    {
+      "id": "suspension-tension",
+      "tags": ["structural"],
+      "text": "On a suspension bridge, the huge main cables are in pure tension, and the deck hangs from them on vertical hangers. The towers just push that tension down into the ground as compression.",
+      "quiz": {
+        "q": "Are the main cables of a suspension bridge in tension or compression?",
+        "a": "Tension — the deck hangs from them, and the towers turn that pull into compression on the foundations."
+      }
+    },
+    {
+      "id": "taipei-damper",
+      "tags": ["structural", "engineering"],
+      "text": "Near the top of Taipei 101 hangs a 660-tonne steel sphere. It's a tuned mass damper: when wind sways the tower one way, the ball swings the other, canceling much of the motion so the building feels still.",
+      "quiz": {
+        "q": "What is the giant steel ball hanging inside Taipei 101 for?",
+        "a": "It's a tuned mass damper that swings opposite the building's sway to cancel wind motion."
+      }
+    },
+    {
+      "id": "wind-load-square",
+      "tags": ["structural", "engineering", "science"],
+      "text": "Wind load rises with the square of wind speed — double the wind and you roughly quadruple the pressure. It's why the tallest, slenderest towers are usually shaped by wind, not by their own weight.",
+      "quiz": {
+        "q": "If wind speed doubles, roughly how much does the wind pressure on a building change?",
+        "a": "It roughly quadruples — pressure scales with the square of wind speed."
+      }
+    },
+    {
+      "id": "water-cement-ratio",
+      "tags": ["construction", "materials"],
+      "text": "The single biggest lever on concrete strength is the water-to-cement ratio (Abrams' law): less water makes it stronger but harder to place. Adding water on site to make pouring easier quietly weakens the result.",
+      "quiz": {
+        "q": "What is the dominant factor in how strong a given concrete mix ends up?",
+        "a": "The water-to-cement ratio — lower means stronger (Abrams' law)."
+      }
+    },
+    {
+      "id": "sydney-opera-sphere",
+      "tags": ["construction", "structural", "history"],
+      "text": "The Sydney Opera House sat stalled for years because nobody could build its free-form shells — until the insight that every shell could be cut from the surface of one single sphere (radius 75.2 m), making them all buildable from repeated pieces.",
+      "quiz": {
+        "q": "What geometric insight finally made the Sydney Opera House's shells buildable?",
+        "a": "Every shell could be taken from the surface of one common sphere (radius 75.2 m), so pieces repeated."
+      }
+    },
+    {
+      "id": "mass-timber",
+      "tags": ["construction", "materials"],
+      "text": "Tall wooden buildings are back: cross-laminated timber lets structures like Milwaukee's Ascent tower rise ~86 m. Big timber sections also char predictably in a fire and can keep carrying load while they burn.",
+      "quiz": {
+        "q": "Why does thick mass timber sometimes outperform exposed steel in a fire?",
+        "a": "It chars slowly and predictably on the surface, insulating the core, so it keeps carrying load rather than suddenly softening."
+      }
+    },
+    {
+      "id": "lightning-hotter-sun",
+      "tags": ["science"],
+      "text": "A lightning bolt heats the air around it to roughly 30,000 K — about five times hotter than the surface of the Sun. That sudden expansion of superheated air is the thunder you hear.",
+      "quiz": {
+        "q": "How does a lightning bolt's temperature compare to the Sun's surface?",
+        "a": "About five times hotter — ~30,000 K versus the Sun's surface at ~5,800 K."
+      }
+    },
+    {
+      "id": "venus-day",
+      "tags": ["space", "science"],
+      "text": "A day on Venus is longer than its year. Venus turns so slowly that one rotation takes 243 Earth days, while a full orbit of the Sun takes only 225.",
+      "quiz": {
+        "q": "On which planet is a single day longer than its entire year?",
+        "a": "Venus — 243 Earth days to rotate once, 225 to orbit the Sun."
+      }
+    },
+    {
+      "id": "honey-never-spoils",
+      "tags": ["science", "history"],
+      "text": "Honey doesn't spoil. Its low water content and natural acidity make it a place bacteria can't grow — archaeologists have found 3,000-year-old honey in Egyptian tombs still edible.",
+      "quiz": {
+        "q": "Why can honey stay edible for thousands of years?",
+        "a": "Very low water content plus acidity stop bacteria and fungi from growing in it."
+      }
+    },
+    {
+      "id": "glass-not-liquid",
+      "tags": ["materials", "science"],
+      "text": "Glass is an amorphous solid, not a slow-moving liquid. Old cathedral windows are thicker at the bottom because of how they were made, not because the glass 'flowed' down over centuries.",
+      "quiz": {
+        "q": "Do old windows get thicker at the bottom because glass slowly flows downward?",
+        "a": "No — glass is a solid; the uneven thickness comes from the old manufacturing process."
+      }
+    },
+    {
+      "id": "bubble-wrap-wallpaper",
+      "tags": ["history", "materials"],
+      "text": "Bubble wrap was invented in 1957 as textured wallpaper. It failed at that, briefly tried being greenhouse insulation, and only found its calling once someone thought to wrap fragile things in it.",
+      "quiz": {
+        "q": "What was bubble wrap originally invented to be?",
+        "a": "Textured wallpaper."
+      }
+    },
+    {
+      "id": "great-wall-space",
+      "tags": ["history", "space"],
+      "text": "The Great Wall of China is not visible from space with the naked eye — it's long but only a few meters wide, and blends into the terrain. The claim spread for decades before astronauts debunked it.",
+      "quiz": {
+        "q": "Can you see the Great Wall of China from space with the naked eye?",
+        "a": "No — it's too narrow and blends into the landscape, despite the popular myth."
+      }
+    },
+    {
+      "id": "banana-radioactive",
+      "tags": ["science"],
+      "text": "Bananas are faintly radioactive from the potassium-40 they contain — enough that 'banana equivalent dose' is a real, if informal, unit physicists use to put tiny radiation exposures in human terms.",
+      "quiz": {
+        "q": "What common fruit gave its name to an informal unit of radiation dose?",
+        "a": "The banana — via potassium-40, hence the 'banana equivalent dose'."
+      }
+    },
+    {
+      "id": "first-bug-moth",
+      "tags": ["coding", "history"],
+      "text": "The first computer 'bug' was a literal one: in 1947 a moth was found jamming a relay in the Harvard Mark II. Grace Hopper's team taped it into the logbook as 'the first actual case of bug being found.'",
+      "quiz": {
+        "q": "What was taped into a 1947 logbook as 'the first actual case of bug being found'?",
+        "a": "A real moth, pulled out of a relay in the Harvard Mark II computer."
+      }
+    },
+    {
+      "id": "ada-first-algorithm",
+      "tags": ["coding", "history"],
+      "text": "The first published computer algorithm predates computers by a century. In 1843 Ada Lovelace wrote a method for Babbage's never-built Analytical Engine to compute Bernoulli numbers — widely considered the first program.",
+      "quiz": {
+        "q": "Who wrote what's considered the first computer algorithm, and roughly when?",
+        "a": "Ada Lovelace, in 1843, for Babbage's Analytical Engine."
+      }
+    },
+    {
+      "id": "at-sign-email",
+      "tags": ["coding", "history"],
+      "text": "Ray Tomlinson picked '@' for email addresses in 1971 for a practical reason: it meant 'at,' and it was one of the few symbols that would never appear in someone's name, so it cleanly split user from host.",
+      "quiz": {
+        "q": "Why did the '@' symbol get chosen for email addresses?",
+        "a": "It meant 'at' and never appeared in names, so it safely separated the user from the host."
+      }
+    },
+    {
+      "id": "git-few-days",
+      "tags": ["coding", "history"],
+      "text": "Git was written by Linus Torvalds in a matter of days in 2005, after the tool Linux had been using pulled its free license. He self-deprecatingly named it after 'an unpleasant person.'",
+      "quiz": {
+        "q": "How long did Linus Torvalds take to build the first working version of Git?",
+        "a": "Just a few days, in April 2005."
+      }
+    },
+    {
+      "id": "billion-dollar-null",
+      "tags": ["coding", "history"],
+      "text": "Tony Hoare called the null reference his 'billion-dollar mistake.' He added it to a language in 1965 simply because it was easy to implement — and spent decades watching it cause crashes and vulnerabilities.",
+      "quiz": {
+        "q": "Which feature did its own inventor, Tony Hoare, call a 'billion-dollar mistake'?",
+        "a": "The null reference, which he introduced in 1965."
+      }
+    },
+    {
+      "id": "y2038",
+      "tags": ["coding", "science"],
+      "text": "Many systems count time as seconds since Jan 1, 1970. In a signed 32-bit integer that counter overflows on Jan 19, 2038 — the 'Y2038 problem' — which is why 64-bit time is quietly replacing it everywhere.",
+      "quiz": {
+        "q": "What happens to 32-bit Unix timestamps in January 2038?",
+        "a": "The signed 32-bit second counter overflows, so systems must move to 64-bit time."
+      }
+    },
+    {
+      "id": "coffee-cam",
+      "tags": ["coding", "history"],
+      "text": "The world's first webcam watched a coffee pot. In 1991 Cambridge researchers pointed a camera at the shared pot so they'd stop walking to an empty one — and accidentally invented live streaming.",
+      "quiz": {
+        "q": "What did the world's first webcam, set up in Cambridge in 1991, watch?",
+        "a": "A coffee pot, so researchers could see if it was full before walking over."
+      }
+    },
+    {
+      "id": "python-monty",
+      "tags": ["coding", "history"],
+      "text": "Python isn't named after the snake. Guido van Rossum named it after Monty Python's Flying Circus — which is why the docs have always leaned toward spam, silliness, and absurd examples.",
+      "quiz": {
+        "q": "Where does the programming language Python get its name?",
+        "a": "From the comedy troupe Monty Python, not the snake."
+      }
+    },
+    {
+      "id": "teapot-418",
+      "tags": ["coding"],
+      "text": "HTTP status 418 'I'm a teapot' is a real registered code, from a 1998 April Fools' spec for brewing coffee. It survives as an in-joke — some servers still return it, and clients still handle it.",
+      "quiz": {
+        "q": "What does HTTP status code 418 officially mean?",
+        "a": "'I'm a teapot' — a joke code from a 1998 April Fools' RFC that stuck around."
+      }
+    },
+    {
+      "id": "nibble-byte",
+      "tags": ["coding"],
+      "text": "A byte is 8 bits — and half a byte, 4 bits, is genuinely called a 'nibble' (sometimes spelled nybble). It's not slang; it shows up in real hardware and protocol documentation.",
+      "quiz": {
+        "q": "What is the real name for half a byte (4 bits)?",
+        "a": "A nibble (or nybble)."
+      }
+    }
+  ]
+}
