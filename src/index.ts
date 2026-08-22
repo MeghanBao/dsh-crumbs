@@ -1,22 +1,53 @@
 import type { Context } from '@deepseek-ai/cordis'
 import { defineTool } from '@deepseek-ai/dsh-tools'
-import { loadPool, pick, render, type Crumb } from './crumbs.ts'
 import { seedFromText } from './topic.ts'
-import { isDisabledByEnv, loadConfig } from './config.ts'
+import { isDisabledByEnv, loadConfig, type CrumbsConfig } from './config.ts'
 import { crumbSkill } from './skill.ts'
+import {
+  autoSource,
+  modelSource,
+  poolSource,
+  resolveModelCaller,
+  type CrumbSource,
+  type CrumbSuggestion,
+} from './source.ts'
 
 // A dsh plugin = `name` + `apply(ctx)`.
 export const name = 'dsh-crumbs'
 export const inject = ['tools']
 
 // Remember the last few crumb ids so back-to-back crumbs don't repeat. Small,
-// process-local, and purely cosmetic — losing it costs nothing.
+// process-local, and purely cosmetic — losing it costs nothing. Model crumbs
+// have no id and are simply not tracked.
 const RECENT_MAX = 8
 const recent: string[] = []
 
 function remember(id: string): void {
   recent.push(id)
   while (recent.length > RECENT_MAX) recent.shift()
+}
+
+// Sources are built once per plugin load; the model caller is discovered then.
+let pool: CrumbSource
+let model: CrumbSource
+
+function sourceFor(config: CrumbsConfig): CrumbSource {
+  if (config.source === 'pool') return pool
+  if (config.source === 'model') return model
+  return autoSource(model, pool) // auto: model first, pool as safety net
+}
+
+/** Pick one crumb via the configured source, avoiding recent repeats. */
+async function nextCrumb(config: CrumbsConfig, topic?: string, mode: 'fact' | 'quiz' = 'fact') {
+  const suggestion = await sourceFor(config).generate({
+    topic,
+    seedTags: seedFromText(topic),
+    mode,
+    excludeIds: recent,
+  })
+  if (!suggestion) return null
+  if (suggestion.id) remember(suggestion.id)
+  return suggestion
 }
 
 /**
@@ -35,14 +66,8 @@ function notify(ctx: any, text: string): void {
   }
 }
 
-/** Choose one crumb for a topic seed, avoiding recent repeats, and mark it seen. */
-async function nextCrumb(topic?: string, mode: 'fact' | 'quiz' = 'fact') {
-  const pool = await loadPool()
-  const tags = seedFromText(topic)
-  const crumb = pick(pool.crumbs, { tags, excludeIds: recent })
-  if (!crumb) return null
-  remember(crumb.id)
-  return { crumb, ...render(crumb, mode) }
+function display(s: CrumbSuggestion): string {
+  return s.reveal ? `${s.text}\n${s.reveal}` : s.text
 }
 
 // ---------------------------------------------------------------------------
@@ -72,8 +97,8 @@ function installLongTaskHook(ctx: any): void {
         // Seed the topic from the command/args of the task we're waiting on.
         const seedText = JSON.stringify(exec?.arguments ?? '')
         const drip = async () => {
-          const c = await nextCrumb(seedText, config.mode)
-          if (c) notify(ctx, c.reveal ? `${c.text}\n${c.reveal}` : c.text)
+          const c = await nextCrumb(config, seedText, config.mode)
+          if (c) notify(ctx, display(c))
           // keep dripping until post-execute clears us
           timers.set(key, setTimeout(drip, config.intervalMs))
         }
@@ -94,6 +119,11 @@ function installLongTaskHook(ctx: any): void {
 // ---------------------------------------------------------------------------
 
 export function apply(ctx: Context) {
+  // Build sources once; discover a side-model caller from the host (may be null,
+  // in which case model/auto degrade to the pool).
+  pool = poolSource()
+  model = modelSource(resolveModelCaller(ctx as any))
+
   // Register the `/crumb` command when the skills service is present; optional.
   const registerSkill = (c: any) => c?.skills?.register?.(crumbSkill())
   try {
@@ -109,11 +139,11 @@ export function apply(ctx: Context) {
     defineTool({
       name: 'crumb',
       description:
-        'Return one small, true fun fact ("crumb") to fill a waiting moment, optionally seeded by a topic so it relates to what the user is doing. This is entertainment for dead time — it does not affect the current task and should not be cited or built upon. Recent crumbs are avoided so repeated calls vary. Use `mode: "quiz"` to get an ask-first question plus its hidden answer.',
+        'Return one small fun fact ("crumb") to fill a waiting moment, optionally seeded by a topic so it relates to what the user is doing. This is entertainment for dead time — it does not affect the current task and should not be cited or built upon. `verified: true` means it came from the curated pool; `verified: false` means a side model generated it (treat as unchecked). Recent crumbs are avoided so repeated calls vary. Use `mode: "quiz"` to get an ask-first question plus its hidden answer.',
       parameters: {
         topic: {
           type: 'string',
-          description: 'Optional topic hint (e.g. "concrete", "git", "space"). Omit for any topic.',
+          description: 'Optional topic hint (e.g. "space", "git", "food"). Omit for any topic.',
         },
         mode: {
           type: 'string',
@@ -131,22 +161,28 @@ export function apply(ctx: Context) {
             text: { type: 'string' },
             reveal: { type: 'string' },
             mode: { type: 'string' },
+            verified: { type: 'boolean' },
           },
         },
-        render: (_args, v) => {
-          const body = v.reveal ? `${v.text}\n${v.reveal}` : v.text
-          return [{ type: 'text', text: body }]
-        },
+        render: (_args, v) => [{ type: 'text', text: v.reveal ? `${v.text}\n${v.reveal}` : v.text }],
       },
 
-      async execute(args) {
+      async execute(args, exec) {
         const mode = args.mode === 'quiz' ? 'quiz' : 'fact'
-        const result = await nextCrumb(args.topic, mode)
+        const cwd = (exec as any)?.agent?.session?.header?.cwd ?? process.cwd()
+        const config = await loadConfig(cwd)
+        const result = await nextCrumb(config, args.topic, mode)
         if (!result) {
-          return { id: '', tags: [], text: '(no crumbs available)', mode }
+          return { id: '', tags: [], text: '(no crumbs available)', mode, verified: true }
         }
-        const { crumb, text, reveal } = result as { crumb: Crumb; text: string; reveal?: string }
-        return { id: crumb.id, tags: crumb.tags, text, reveal, mode }
+        return {
+          id: result.id ?? '',
+          tags: result.tags ?? [],
+          text: result.text,
+          reveal: result.reveal,
+          mode,
+          verified: result.verified,
+        }
       },
     }),
   )

@@ -9,6 +9,8 @@
 import { readFile } from 'node:fs/promises'
 import { join } from 'node:path'
 
+export type CrumbSourceKind = 'pool' | 'model' | 'auto'
+
 export interface CrumbsConfig {
   /** Surface crumbs automatically while a long tool call runs. */
   autoSurface: boolean
@@ -20,6 +22,13 @@ export interface CrumbsConfig {
   mode: 'fact' | 'quiz'
   /** Tool names whose calls are treated as potentially long-running. */
   longTools: string[]
+  /**
+   * Where crumbs come from:
+   *   pool  — only the curated, verified pool.
+   *   model — only a side-model generation (falls back to null if unavailable).
+   *   auto  — side model when available, else the pool (default).
+   */
+  source: CrumbSourceKind
 }
 
 export const DEFAULT_CONFIG: CrumbsConfig = {
@@ -28,6 +37,7 @@ export const DEFAULT_CONFIG: CrumbsConfig = {
   intervalMs: 12000,
   mode: 'fact',
   longTools: ['bash', 'shell', 'exec', 'run'],
+  source: 'auto',
 }
 
 export const CONFIG_REL = join('.dsh', 'crumbs.config.json')
@@ -51,6 +61,7 @@ export function mergeConfig(raw: unknown): CrumbsConfig {
       Array.isArray(r.longTools) && r.longTools.every((x) => typeof x === 'string')
         ? (r.longTools as string[])
         : DEFAULT_CONFIG.longTools,
+    source: r.source === 'pool' || r.source === 'model' ? r.source : DEFAULT_CONFIG.source,
   }
 }
 
