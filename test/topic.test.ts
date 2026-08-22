@@ -14,24 +14,27 @@ test('coding cues map to coding', () => {
   assert.ok(seedFromText('npm run build').includes('coding'))
 })
 
-test('construction cues map to construction, incl. Chinese and standards', () => {
-  assert.ok(seedFromText('pour the concrete slab and check the rebar').includes('construction'))
-  assert.ok(seedFromText('GB50010 保护层最小厚度').includes('construction'))
-  assert.ok(seedFromText('混凝土梁配筋').includes('construction'))
+test('space cues map to space', () => {
+  assert.ok(seedFromText('compute the orbit of the satellite around Mars').includes('space'))
 })
 
-test('structural cues map to structural', () => {
-  const t = seedFromText('the beam is in tension under this load')
-  assert.ok(t.includes('structural'))
+test('science cues map to science', () => {
+  assert.ok(seedFromText('the chemistry of this reaction releases energy').includes('science'))
+})
+
+test('nature cues map to nature', () => {
+  assert.ok(seedFromText('sequence the animal DNA from the ocean species').includes('nature'))
+})
+
+test('food cues map to food', () => {
+  assert.ok(seedFromText('write a recipe with three vegetable ingredients').includes('food'))
 })
 
 test('a mixed sentence can yield multiple tags, each once', () => {
-  const t = seedFromText('compile the analysis for the steel beam bridge')
-  assert.ok(t.includes('coding')) // compile
-  assert.ok(t.includes('structural')) // beam, bridge
-  assert.ok(t.includes('materials')) // steel
-  // no duplicates
-  assert.equal(new Set(t).size, t.length)
+  const t = seedFromText('compile the python model of the planet orbit')
+  assert.ok(t.includes('coding')) // compile, python
+  assert.ok(t.includes('space')) // planet, orbit
+  assert.equal(new Set(t).size, t.length) // no duplicates
 })
 
 test('unrelated text yields no tags (any crumb is fair game)', () => {
@@ -39,7 +42,7 @@ test('unrelated text yields no tags (any crumb is fair game)', () => {
 })
 
 test('handles very long input without blowing up', () => {
-  const big = 'concrete '.repeat(5000)
+  const big = 'orbit '.repeat(5000)
   const t = seedFromText(big)
-  assert.ok(t.includes('construction'))
+  assert.ok(t.includes('space'))
 })

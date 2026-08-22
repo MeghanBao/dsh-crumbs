@@ -22,7 +22,7 @@ Rules:
 
 - **It must be true.** Crumbs are checkable claims. If it's a myth, a 'commonly said', or a debated result, either leave it out or say so in the text ("often claimed", "still debated"). Several entries do this deliberately.
 - **`id` is unique and stable** — it's used to avoid immediate repeats. `npm test` fails on duplicates.
-- **At least one tag** from the existing set (`coding`, `construction`, `structural`, `materials`, `engineering`, `science`, `space`, `history`). New tags are fine — add a matching rule in `src/topic.ts` so tasks can seed them.
+- **At least one tag** from the existing set (`coding`, `science`, `space`, `nature`, `history`, `geography`, `language`, `math`, `art`, `food`, `body`). Keep the pool general-interest, not tied to any one field. New tags are fine — add a matching rule in `src/topic.ts` so tasks can seed them.
 - **`quiz` is optional** but nice; keep the question self-contained and the answer short.
 - Keep it short. A crumb is a pause, not a paragraph.
 

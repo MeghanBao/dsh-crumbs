@@ -1,241 +1,7 @@
 {
-  "version": 1,
-  "note": "Curated, fact-checked crumbs. Each is a small true thing worth a pause. tags drive topic relevance; quiz is the optional ask-first form.",
+  "version": 2,
+  "note": "Curated, fact-checked crumbs across many domains — not tied to any field. tags drive topic relevance; quiz is the optional ask-first form.",
   "crumbs": [
-    {
-      "id": "concrete-steel-thermal",
-      "tags": ["construction", "structural", "materials"],
-      "text": "Concrete and steel have almost the same thermal expansion coefficient (~10-12 ×10⁻⁶/°C). That near-match is the physical reason reinforced concrete can heat and cool for a century without the two materials tearing apart.",
-      "quiz": {
-        "q": "Why don't the steel bars and the concrete around them separate as a building heats and cools over decades?",
-        "a": "Their thermal expansion coefficients are nearly identical (~10-12 ×10⁻⁶/°C), so they expand and contract together."
-      }
-    },
-    {
-      "id": "concrete-28-day",
-      "tags": ["construction", "materials"],
-      "text": "Concrete doesn't 'dry' — it cures by hydration, a chemical reaction that keeps gaining strength for years and can even happen underwater. The 28-day strength everyone quotes is just a standardized checkpoint, not the end.",
-      "quiz": {
-        "q": "Can concrete cure underwater?",
-        "a": "Yes — curing is hydration (a chemical reaction), not drying, so it proceeds fine underwater."
-      }
-    },
-    {
-      "id": "pantheon-dome",
-      "tags": ["construction", "structural", "history"],
-      "text": "The Pantheon in Rome still holds the record for the largest unreinforced concrete dome (~43.3 m span) — nearly 1,900 years after it was built. The Romans lightened it near the top with pumice aggregate.",
-      "quiz": {
-        "q": "What is the largest unreinforced concrete dome ever built?",
-        "a": "The Pantheon in Rome (~43.3 m), built around 126 AD."
-      }
-    },
-    {
-      "id": "roman-seawater-concrete",
-      "tags": ["construction", "materials", "science"],
-      "text": "Roman marine concrete gets stronger with age: seawater reacting with its volcanic ash grows interlocking Al-tobermorite crystals over centuries. Modern research (2017) is still trying to copy this self-strengthening trick.",
-      "quiz": {
-        "q": "What did Roman seawater concrete do that modern concrete usually can't?",
-        "a": "It grew stronger over centuries as seawater formed Al-tobermorite crystals in it."
-      }
-    },
-    {
-      "id": "otis-elevator",
-      "tags": ["construction", "history"],
-      "text": "Skyscrapers exist because of a brake. Elisha Otis's 1853 elevator safety catch — which stops the car if the cable snaps — is what made people willing to live and work far above the ground.",
-      "quiz": {
-        "q": "Which invention made tall buildings socially viable, not just structurally possible?",
-        "a": "The Otis elevator safety brake (1853), which stops the car if the cable fails."
-      }
-    },
-    {
-      "id": "first-skyscraper",
-      "tags": ["construction", "structural", "history"],
-      "text": "The building often called the first skyscraper — Chicago's Home Insurance Building (1885) — was only 10 stories. Its breakthrough wasn't height but the steel skeleton frame that carried the load instead of thick masonry walls.",
-      "quiz": {
-        "q": "What made the 1885 Home Insurance Building a 'first skyscraper' despite being only 10 stories?",
-        "a": "Its load-bearing steel frame, instead of the building's height being held up by thick masonry walls."
-      }
-    },
-    {
-      "id": "monier-gardener",
-      "tags": ["construction", "materials", "history"],
-      "text": "Reinforced concrete was patented in 1867 by Joseph Monier — a gardener who was just trying to make plant pots that wouldn't crack. He wrapped iron mesh in concrete; the building industry took it from there.",
-      "quiz": {
-        "q": "What was Joseph Monier, the man who patented reinforced concrete, actually trying to build?",
-        "a": "Crack-resistant garden pots and tubs."
-      }
-    },
-    {
-      "id": "eiffel-summer",
-      "tags": ["structural", "materials", "science"],
-      "text": "The Eiffel Tower is up to ~15 cm taller in summer than in winter. Iron expands as it heats, so the whole tower grows in the sun and leans slightly away from it.",
-      "quiz": {
-        "q": "Roughly how much does the Eiffel Tower's height change between summer and winter?",
-        "a": "About 15 cm taller in summer, from thermal expansion of the iron."
-      }
-    },
-    {
-      "id": "concrete-tension",
-      "tags": ["construction", "structural"],
-      "text": "Concrete is roughly ten times weaker in tension than in compression. That single fact is why steel rebar exists — it goes into the zones of a beam or slab that are being pulled apart, where concrete alone would crack.",
-      "quiz": {
-        "q": "Why is steel placed in the tension zones of a concrete beam rather than spread evenly?",
-        "a": "Concrete is ~10× weaker in tension than compression, so steel carries the tension the concrete can't."
-      }
-    },
-    {
-      "id": "rebar-ribbed",
-      "tags": ["construction", "materials"],
-      "text": "The ribs on rebar aren't decoration — they're there so the concrete grips the bar mechanically instead of just sticking to it. Smooth bars can slip; deformed bars transfer force through interlock.",
-      "quiz": {
-        "q": "Why is reinforcing bar ribbed instead of smooth?",
-        "a": "The ribs create a mechanical interlock so the bar can transfer force to the concrete without slipping."
-      }
-    },
-    {
-      "id": "rust-spalling",
-      "tags": ["construction", "materials", "science"],
-      "text": "When rebar rusts, the iron oxide takes up several times more volume than the original steel. That expansion is what cracks and blows off the concrete cover — the reason 'concrete cover depth' is a rule, not a suggestion.",
-      "quiz": {
-        "q": "Why does corroding rebar crack the concrete around it?",
-        "a": "Rust (iron oxide) occupies several times the volume of the original steel, and that expansion splits the concrete."
-      }
-    },
-    {
-      "id": "water-freeze-expand",
-      "tags": ["materials", "science"],
-      "text": "Water is unusual: it expands about 9% when it freezes. That one property bursts pipes, splits rock, and turns a small road crack into a pothole every winter through freeze-thaw cycling.",
-      "quiz": {
-        "q": "What everyday property of water causes potholes and burst pipes?",
-        "a": "It expands ~9% when it freezes, prying materials apart in freeze-thaw cycles."
-      }
-    },
-    {
-      "id": "gaudi-catenary",
-      "tags": ["structural", "history"],
-      "text": "Antoni Gaudí designed arches by hanging chains upside-down: a chain in tension forms a catenary, and flipped over it becomes the ideal compression arch. He ran whole cathedrals as hanging-string models before drawing them.",
-      "quiz": {
-        "q": "How did Gaudí find the ideal shape for a compression arch without a computer?",
-        "a": "He hung chains to form catenaries and inverted them — the mirror of a hanging chain is the optimal arch."
-      }
-    },
-    {
-      "id": "suspension-tension",
-      "tags": ["structural"],
-      "text": "On a suspension bridge, the huge main cables are in pure tension, and the deck hangs from them on vertical hangers. The towers just push that tension down into the ground as compression.",
-      "quiz": {
-        "q": "Are the main cables of a suspension bridge in tension or compression?",
-        "a": "Tension — the deck hangs from them, and the towers turn that pull into compression on the foundations."
-      }
-    },
-    {
-      "id": "taipei-damper",
-      "tags": ["structural", "engineering"],
-      "text": "Near the top of Taipei 101 hangs a 660-tonne steel sphere. It's a tuned mass damper: when wind sways the tower one way, the ball swings the other, canceling much of the motion so the building feels still.",
-      "quiz": {
-        "q": "What is the giant steel ball hanging inside Taipei 101 for?",
-        "a": "It's a tuned mass damper that swings opposite the building's sway to cancel wind motion."
-      }
-    },
-    {
-      "id": "wind-load-square",
-      "tags": ["structural", "engineering", "science"],
-      "text": "Wind load rises with the square of wind speed — double the wind and you roughly quadruple the pressure. It's why the tallest, slenderest towers are usually shaped by wind, not by their own weight.",
-      "quiz": {
-        "q": "If wind speed doubles, roughly how much does the wind pressure on a building change?",
-        "a": "It roughly quadruples — pressure scales with the square of wind speed."
-      }
-    },
-    {
-      "id": "water-cement-ratio",
-      "tags": ["construction", "materials"],
-      "text": "The single biggest lever on concrete strength is the water-to-cement ratio (Abrams' law): less water makes it stronger but harder to place. Adding water on site to make pouring easier quietly weakens the result.",
-      "quiz": {
-        "q": "What is the dominant factor in how strong a given concrete mix ends up?",
-        "a": "The water-to-cement ratio — lower means stronger (Abrams' law)."
-      }
-    },
-    {
-      "id": "sydney-opera-sphere",
-      "tags": ["construction", "structural", "history"],
-      "text": "The Sydney Opera House sat stalled for years because nobody could build its free-form shells — until the insight that every shell could be cut from the surface of one single sphere (radius 75.2 m), making them all buildable from repeated pieces.",
-      "quiz": {
-        "q": "What geometric insight finally made the Sydney Opera House's shells buildable?",
-        "a": "Every shell could be taken from the surface of one common sphere (radius 75.2 m), so pieces repeated."
-      }
-    },
-    {
-      "id": "mass-timber",
-      "tags": ["construction", "materials"],
-      "text": "Tall wooden buildings are back: cross-laminated timber lets structures like Milwaukee's Ascent tower rise ~86 m. Big timber sections also char predictably in a fire and can keep carrying load while they burn.",
-      "quiz": {
-        "q": "Why does thick mass timber sometimes outperform exposed steel in a fire?",
-        "a": "It chars slowly and predictably on the surface, insulating the core, so it keeps carrying load rather than suddenly softening."
-      }
-    },
-    {
-      "id": "lightning-hotter-sun",
-      "tags": ["science"],
-      "text": "A lightning bolt heats the air around it to roughly 30,000 K — about five times hotter than the surface of the Sun. That sudden expansion of superheated air is the thunder you hear.",
-      "quiz": {
-        "q": "How does a lightning bolt's temperature compare to the Sun's surface?",
-        "a": "About five times hotter — ~30,000 K versus the Sun's surface at ~5,800 K."
-      }
-    },
-    {
-      "id": "venus-day",
-      "tags": ["space", "science"],
-      "text": "A day on Venus is longer than its year. Venus turns so slowly that one rotation takes 243 Earth days, while a full orbit of the Sun takes only 225.",
-      "quiz": {
-        "q": "On which planet is a single day longer than its entire year?",
-        "a": "Venus — 243 Earth days to rotate once, 225 to orbit the Sun."
-      }
-    },
-    {
-      "id": "honey-never-spoils",
-      "tags": ["science", "history"],
-      "text": "Honey doesn't spoil. Its low water content and natural acidity make it a place bacteria can't grow — archaeologists have found 3,000-year-old honey in Egyptian tombs still edible.",
-      "quiz": {
-        "q": "Why can honey stay edible for thousands of years?",
-        "a": "Very low water content plus acidity stop bacteria and fungi from growing in it."
-      }
-    },
-    {
-      "id": "glass-not-liquid",
-      "tags": ["materials", "science"],
-      "text": "Glass is an amorphous solid, not a slow-moving liquid. Old cathedral windows are thicker at the bottom because of how they were made, not because the glass 'flowed' down over centuries.",
-      "quiz": {
-        "q": "Do old windows get thicker at the bottom because glass slowly flows downward?",
-        "a": "No — glass is a solid; the uneven thickness comes from the old manufacturing process."
-      }
-    },
-    {
-      "id": "bubble-wrap-wallpaper",
-      "tags": ["history", "materials"],
-      "text": "Bubble wrap was invented in 1957 as textured wallpaper. It failed at that, briefly tried being greenhouse insulation, and only found its calling once someone thought to wrap fragile things in it.",
-      "quiz": {
-        "q": "What was bubble wrap originally invented to be?",
-        "a": "Textured wallpaper."
-      }
-    },
-    {
-      "id": "great-wall-space",
-      "tags": ["history", "space"],
-      "text": "The Great Wall of China is not visible from space with the naked eye — it's long but only a few meters wide, and blends into the terrain. The claim spread for decades before astronauts debunked it.",
-      "quiz": {
-        "q": "Can you see the Great Wall of China from space with the naked eye?",
-        "a": "No — it's too narrow and blends into the landscape, despite the popular myth."
-      }
-    },
-    {
-      "id": "banana-radioactive",
-      "tags": ["science"],
-      "text": "Bananas are faintly radioactive from the potassium-40 they contain — enough that 'banana equivalent dose' is a real, if informal, unit physicists use to put tiny radiation exposures in human terms.",
-      "quiz": {
-        "q": "What common fruit gave its name to an informal unit of radiation dose?",
-        "a": "The banana — via potassium-40, hence the 'banana equivalent dose'."
-      }
-    },
     {
       "id": "first-bug-moth",
       "tags": ["coding", "history"],
@@ -255,12 +21,12 @@
       }
     },
     {
-      "id": "at-sign-email",
-      "tags": ["coding", "history"],
-      "text": "Ray Tomlinson picked '@' for email addresses in 1971 for a practical reason: it meant 'at,' and it was one of the few symbols that would never appear in someone's name, so it cleanly split user from host.",
+      "id": "python-monty",
+      "tags": ["coding"],
+      "text": "Python isn't named after the snake. Guido van Rossum named it after Monty Python's Flying Circus — which is why the docs have always leaned toward spam, silliness, and absurd examples.",
       "quiz": {
-        "q": "Why did the '@' symbol get chosen for email addresses?",
-        "a": "It meant 'at' and never appeared in names, so it safely separated the user from the host."
+        "q": "Where does the programming language Python get its name?",
+        "a": "From the comedy troupe Monty Python, not the snake."
       }
     },
     {
@@ -273,39 +39,12 @@
       }
     },
     {
-      "id": "billion-dollar-null",
+      "id": "at-sign-email",
       "tags": ["coding", "history"],
-      "text": "Tony Hoare called the null reference his 'billion-dollar mistake.' He added it to a language in 1965 simply because it was easy to implement — and spent decades watching it cause crashes and vulnerabilities.",
+      "text": "Ray Tomlinson picked '@' for email addresses in 1971 for a practical reason: it meant 'at,' and it was one of the few symbols that would never appear in someone's name, so it cleanly split user from host.",
       "quiz": {
-        "q": "Which feature did its own inventor, Tony Hoare, call a 'billion-dollar mistake'?",
-        "a": "The null reference, which he introduced in 1965."
-      }
-    },
-    {
-      "id": "y2038",
-      "tags": ["coding", "science"],
-      "text": "Many systems count time as seconds since Jan 1, 1970. In a signed 32-bit integer that counter overflows on Jan 19, 2038 — the 'Y2038 problem' — which is why 64-bit time is quietly replacing it everywhere.",
-      "quiz": {
-        "q": "What happens to 32-bit Unix timestamps in January 2038?",
-        "a": "The signed 32-bit second counter overflows, so systems must move to 64-bit time."
-      }
-    },
-    {
-      "id": "coffee-cam",
-      "tags": ["coding", "history"],
-      "text": "The world's first webcam watched a coffee pot. In 1991 Cambridge researchers pointed a camera at the shared pot so they'd stop walking to an empty one — and accidentally invented live streaming.",
-      "quiz": {
-        "q": "What did the world's first webcam, set up in Cambridge in 1991, watch?",
-        "a": "A coffee pot, so researchers could see if it was full before walking over."
-      }
-    },
-    {
-      "id": "python-monty",
-      "tags": ["coding", "history"],
-      "text": "Python isn't named after the snake. Guido van Rossum named it after Monty Python's Flying Circus — which is why the docs have always leaned toward spam, silliness, and absurd examples.",
-      "quiz": {
-        "q": "Where does the programming language Python get its name?",
-        "a": "From the comedy troupe Monty Python, not the snake."
+        "q": "Why did the '@' symbol get chosen for email addresses?",
+        "a": "It meant 'at' and never appeared in names, so it safely separated the user from the host."
       }
     },
     {
@@ -318,12 +57,363 @@
       }
     },
     {
-      "id": "nibble-byte",
-      "tags": ["coding"],
-      "text": "A byte is 8 bits — and half a byte, 4 bits, is genuinely called a 'nibble' (sometimes spelled nybble). It's not slang; it shows up in real hardware and protocol documentation.",
+      "id": "lightning-hotter-sun",
+      "tags": ["science"],
+      "text": "A lightning bolt heats the air around it to roughly 30,000 K — about five times hotter than the surface of the Sun. That sudden expansion of superheated air is the thunder you hear.",
       "quiz": {
-        "q": "What is the real name for half a byte (4 bits)?",
-        "a": "A nibble (or nybble)."
+        "q": "How does a lightning bolt's temperature compare to the Sun's surface?",
+        "a": "About five times hotter — ~30,000 K versus the Sun's surface at ~5,800 K."
+      }
+    },
+    {
+      "id": "water-freeze-expand",
+      "tags": ["science"],
+      "text": "Water is unusual: it expands about 9% when it freezes. That one property bursts pipes, splits rock into soil, and floats ice on top of ponds instead of sinking it.",
+      "quiz": {
+        "q": "What unusual thing does water do when it freezes, unlike most liquids?",
+        "a": "It expands (~9%) and becomes less dense, so ice floats."
+      }
+    },
+    {
+      "id": "glass-not-liquid",
+      "tags": ["science", "history"],
+      "text": "Glass is an amorphous solid, not a slow-moving liquid. Old cathedral windows are thicker at the bottom because of how they were made, not because the glass 'flowed' down over centuries.",
+      "quiz": {
+        "q": "Do old windows get thicker at the bottom because glass slowly flows downward?",
+        "a": "No — glass is a solid; the uneven thickness comes from the old manufacturing process."
+      }
+    },
+    {
+      "id": "helium-finite",
+      "tags": ["science"],
+      "text": "Helium is genuinely running out. It's so light that once released it drifts up and escapes Earth's gravity into space for good — the party balloon is venting a finite resource we mostly pull from natural gas.",
+      "quiz": {
+        "q": "Why is helium considered a non-renewable resource on Earth?",
+        "a": "It's light enough to escape Earth's gravity into space once released, and can't be practically recaptured."
+      }
+    },
+    {
+      "id": "neutron-star-teaspoon",
+      "tags": ["space", "science"],
+      "text": "A neutron star is so dense that a single teaspoon of its material would weigh about a billion tonnes on Earth — roughly the mass of a mountain packed into a spoon.",
+      "quiz": {
+        "q": "Roughly how much would one teaspoon of neutron-star material weigh on Earth?",
+        "a": "About a billion tonnes — comparable to a mountain."
+      }
+    },
+    {
+      "id": "saturn-floats",
+      "tags": ["space", "science"],
+      "text": "Saturn is less dense than water. If you had a bathtub big enough, the whole planet would float — its average density is about 0.7 g/cm³, below water's 1.0.",
+      "quiz": {
+        "q": "Which planet in our solar system would float in water, given a big enough tub?",
+        "a": "Saturn — its average density is less than water's."
+      }
+    },
+    {
+      "id": "sun-light-8min",
+      "tags": ["space", "science"],
+      "text": "Sunlight takes about 8 minutes 20 seconds to reach Earth. You never see the Sun as it is now — always as it was over eight minutes ago.",
+      "quiz": {
+        "q": "How long does light from the Sun take to reach Earth?",
+        "a": "About 8 minutes and 20 seconds."
+      }
+    },
+    {
+      "id": "venus-day",
+      "tags": ["space"],
+      "text": "A day on Venus is longer than its year. Venus turns so slowly that one rotation takes 243 Earth days, while a full orbit of the Sun takes only 225.",
+      "quiz": {
+        "q": "On which planet is a single day longer than its entire year?",
+        "a": "Venus — 243 Earth days to rotate once, 225 to orbit the Sun."
+      }
+    },
+    {
+      "id": "stars-vs-sand",
+      "tags": ["space"],
+      "text": "There are more stars in the observable universe than grains of sand on all of Earth's beaches and deserts combined — very roughly 10²² stars versus about 10¹⁹ grains of sand.",
+      "quiz": {
+        "q": "Which is greater: stars in the observable universe, or grains of sand on Earth?",
+        "a": "Stars — by a factor of roughly a thousand."
+      }
+    },
+    {
+      "id": "earth-day-lengthening",
+      "tags": ["space", "science"],
+      "text": "Earth's day is slowly getting longer. The Moon's tidal pull drags on our spin, adding about 1.7 milliseconds to the length of a day every century — which is why leap seconds exist.",
+      "quiz": {
+        "q": "Why is the length of Earth's day very slowly increasing?",
+        "a": "The Moon's tidal pull is gradually slowing Earth's rotation (~1.7 ms per century)."
+      }
+    },
+    {
+      "id": "octopus-three-hearts",
+      "tags": ["nature", "science"],
+      "text": "An octopus has three hearts and blue blood. Two hearts pump to the gills and one to the body; the blood is blue because it carries oxygen on copper, not iron.",
+      "quiz": {
+        "q": "How many hearts does an octopus have, and why is its blood blue?",
+        "a": "Three hearts; the blood is blue because it uses copper (hemocyanin) instead of iron to carry oxygen."
+      }
+    },
+    {
+      "id": "banana-berry",
+      "tags": ["nature", "food"],
+      "text": "Botanically, a banana is a berry — but a strawberry is not. 'Berry' has a strict botanical definition about how the fruit forms, and everyday names don't follow it.",
+      "quiz": {
+        "q": "Which is botanically a berry: a banana or a strawberry?",
+        "a": "The banana — a strawberry is not a true berry."
+      }
+    },
+    {
+      "id": "sharks-older-trees",
+      "tags": ["nature", "history"],
+      "text": "Sharks are older than trees. Sharks have swum the oceans for around 450 million years; the first trees appeared roughly 350–390 million years ago.",
+      "quiz": {
+        "q": "Which came first: sharks or trees?",
+        "a": "Sharks — by tens of millions of years."
+      }
+    },
+    {
+      "id": "wombat-cube-poop",
+      "tags": ["nature"],
+      "text": "Wombats produce cube-shaped droppings — the only known animal to make cubes. Their intestines have varying elasticity that molds the flat sides, so the pellets don't roll away and can mark territory.",
+      "quiz": {
+        "q": "Which animal is famous for producing cube-shaped droppings?",
+        "a": "The wombat."
+      }
+    },
+    {
+      "id": "tardigrade-space",
+      "tags": ["nature", "science"],
+      "text": "Tardigrades — microscopic 'water bears' — have survived the raw vacuum and radiation of open space. They dry into a near-dead state and revive when conditions improve.",
+      "quiz": {
+        "q": "Which tiny animal has been shown to survive the vacuum of open space?",
+        "a": "The tardigrade (water bear)."
+      }
+    },
+    {
+      "id": "flamingo-flamboyance",
+      "tags": ["nature", "language"],
+      "text": "A group of flamingos is called a 'flamboyance.' Their pink color isn't built in either — it comes from pigments in the algae and shrimp they eat.",
+      "quiz": {
+        "q": "What is the collective noun for a group of flamingos?",
+        "a": "A flamboyance."
+      }
+    },
+    {
+      "id": "oxford-older-aztec",
+      "tags": ["history"],
+      "text": "Oxford University is older than the Aztec Empire. Teaching at Oxford dates to around 1096; the Aztec capital Tenochtitlan wasn't founded until 1325.",
+      "quiz": {
+        "q": "Which is older: Oxford University or the Aztec Empire?",
+        "a": "Oxford — teaching there began (~1096) over two centuries before Tenochtitlan was founded (1325)."
+      }
+    },
+    {
+      "id": "cleopatra-timeline",
+      "tags": ["history"],
+      "text": "Cleopatra lived closer in time to the Moon landing than to the building of the Great Pyramid. The Pyramid was already ~2,500 years old in her day; the Moon landing was only ~2,000 years after it.",
+      "quiz": {
+        "q": "Was Cleopatra closer in time to the Great Pyramid's construction or to the Moon landing?",
+        "a": "The Moon landing — the Pyramid was ~2,500 years before her, the landing ~2,000 years after."
+      }
+    },
+    {
+      "id": "great-wall-space",
+      "tags": ["history", "space"],
+      "text": "The Great Wall of China is not visible from space with the naked eye — it's long but only a few meters wide, and blends into the terrain. The claim spread for decades before astronauts debunked it.",
+      "quiz": {
+        "q": "Can you see the Great Wall of China from space with the naked eye?",
+        "a": "No — it's too narrow and blends into the landscape, despite the popular myth."
+      }
+    },
+    {
+      "id": "napoleon-height",
+      "tags": ["history"],
+      "text": "Napoleon wasn't short. At about 1.68 m he was average for a Frenchman of his era; the 'tiny Napoleon' image came from British propaganda and a mix-up between French and English inches.",
+      "quiz": {
+        "q": "Was Napoleon unusually short for his time?",
+        "a": "No — he was about average height; the myth came from propaganda and an inch-unit mix-up."
+      }
+    },
+    {
+      "id": "bubble-wrap-wallpaper",
+      "tags": ["history"],
+      "text": "Bubble wrap was invented in 1957 as textured wallpaper. It failed at that, briefly tried being greenhouse insulation, and only found its calling once someone thought to wrap fragile things in it.",
+      "quiz": {
+        "q": "What was bubble wrap originally invented to be?",
+        "a": "Textured wallpaper."
+      }
+    },
+    {
+      "id": "russia-timezones",
+      "tags": ["geography"],
+      "text": "Russia spans 11 time zones — when it's morning on its western edge, it's already evening in the east. It's so wide that two of its cities are farther apart than New York and London.",
+      "quiz": {
+        "q": "How many time zones does Russia span?",
+        "a": "Eleven."
+      }
+    },
+    {
+      "id": "africa-hemispheres",
+      "tags": ["geography"],
+      "text": "Africa is the only continent that sits in all four hemispheres — northern, southern, eastern, and western — because both the equator and the prime meridian pass through it.",
+      "quiz": {
+        "q": "Which continent lies in all four hemispheres at once?",
+        "a": "Africa — crossed by both the equator and the prime meridian."
+      }
+    },
+    {
+      "id": "canada-lakes",
+      "tags": ["geography"],
+      "text": "Canada has more lakes than the rest of the world combined — well over half of all the lakes on Earth lie within its borders.",
+      "quiz": {
+        "q": "Which country contains more lakes than the rest of the world put together?",
+        "a": "Canada."
+      }
+    },
+    {
+      "id": "everest-mauna-kea",
+      "tags": ["geography", "science"],
+      "text": "Everest is the highest point above sea level, but not the tallest mountain. Measured from its base on the ocean floor, Hawaii's Mauna Kea is over 10,000 m tall — taller than Everest.",
+      "quiz": {
+        "q": "Measured base to peak, which mountain is taller than Everest?",
+        "a": "Mauna Kea — its base sits on the ocean floor, giving it over 10,000 m of total height."
+      }
+    },
+    {
+      "id": "run-definitions",
+      "tags": ["language"],
+      "text": "The word with the most definitions in English is 'run' — the Oxford English Dictionary lists over 600 senses for it, from a river running to running a business to a run in your sock.",
+      "quiz": {
+        "q": "Which English word has the most definitions in the Oxford English Dictionary?",
+        "a": "'Run', with over 600 distinct senses."
+      }
+    },
+    {
+      "id": "tittle",
+      "tags": ["language"],
+      "text": "The little dot over a lowercase 'i' or 'j' has a name: it's called a 'tittle.' The word survives today mainly in the phrase 'to a T' (originally 'to a tittle').",
+      "quiz": {
+        "q": "What is the name for the dot over a lowercase 'i' or 'j'?",
+        "a": "A tittle."
+      }
+    },
+    {
+      "id": "greenland-naming",
+      "tags": ["language", "history", "geography"],
+      "text": "Greenland is icy and Iceland is green — because Erik the Red named the icy island 'Greenland' on purpose, as a marketing trick to lure settlers there.",
+      "quiz": {
+        "q": "Why is icy Greenland named 'green'?",
+        "a": "Erik the Red gave it an appealing name to attract settlers."
+      }
+    },
+    {
+      "id": "birthday-paradox",
+      "tags": ["math"],
+      "text": "In a room of just 23 people, it's more likely than not that two share a birthday. It feels wrong because you're comparing every pair, not matching one specific date — there are 253 possible pairs.",
+      "quiz": {
+        "q": "How few people need to be in a room for a >50% chance that two share a birthday?",
+        "a": "Just 23."
+      }
+    },
+    {
+      "id": "googol-atoms",
+      "tags": ["math", "space"],
+      "text": "A googol — a 1 followed by 100 zeros — is larger than the number of atoms in the entire observable universe, which is estimated at only about 10⁸⁰.",
+      "quiz": {
+        "q": "Which is bigger: a googol, or the number of atoms in the observable universe?",
+        "a": "A googol (10¹⁰⁰) — about 10²⁰ times more than the ~10⁸⁰ atoms."
+      }
+    },
+    {
+      "id": "zero-late",
+      "tags": ["math", "history"],
+      "text": "Zero as a number is a surprisingly late invention. The Romans had no symbol for it, and the idea of zero as a value you can calculate with reached Europe only around the 12th century.",
+      "quiz": {
+        "q": "Did the ancient Romans have a symbol for zero?",
+        "a": "No — zero as a usable number reached Europe much later, around the 12th century."
+      }
+    },
+    {
+      "id": "mona-lisa-eyebrows",
+      "tags": ["art", "history"],
+      "text": "The Mona Lisa has no visible eyebrows or eyelashes. Whether Leonardo left them out, they faded, or an early cleaning removed them is still debated.",
+      "quiz": {
+        "q": "What famous facial feature is missing from the Mona Lisa?",
+        "a": "Her eyebrows (and eyelashes) — they're not visible in the painting."
+      }
+    },
+    {
+      "id": "happy-birthday-copyright",
+      "tags": ["art", "history"],
+      "text": "'Happy Birthday to You' was under copyright until 2016. For decades, films and restaurants dodged royalties by singing something else — until a court finally ruled the song public domain.",
+      "quiz": {
+        "q": "Until what year was 'Happy Birthday to You' claimed to be under copyright?",
+        "a": "2016, when a court ruled it public domain."
+      }
+    },
+    {
+      "id": "carrots-purple",
+      "tags": ["food", "history"],
+      "text": "Carrots were originally purple, white, and yellow — not orange. The familiar orange carrot was cultivated later, popularized by Dutch growers around the 17th century.",
+      "quiz": {
+        "q": "What color were carrots before the familiar orange ones were bred?",
+        "a": "Mostly purple, white, and yellow."
+      }
+    },
+    {
+      "id": "peanuts-legumes",
+      "tags": ["food", "nature"],
+      "text": "Peanuts aren't nuts. They're legumes — closer kin to peas and lentils — and, unlike tree nuts, they grow underground.",
+      "quiz": {
+        "q": "Botanically, what family do peanuts actually belong to?",
+        "a": "Legumes (like peas and beans), not tree nuts."
+      }
+    },
+    {
+      "id": "ketchup-medicine",
+      "tags": ["food", "history"],
+      "text": "In the 1830s, ketchup was sold as medicine. An Ohio doctor marketed tomato-based pills as a cure for indigestion and other ailments before it settled into being a condiment.",
+      "quiz": {
+        "q": "In the 1830s, ketchup was briefly sold as what?",
+        "a": "Medicine — tomato pills marketed as a cure for indigestion."
+      }
+    },
+    {
+      "id": "stomach-lining",
+      "tags": ["body", "science"],
+      "text": "Your stomach essentially rebuilds itself every few days. The acid inside is strong enough to digest the stomach itself, so its lining is replaced constantly to stay ahead of the damage.",
+      "quiz": {
+        "q": "Why does the stomach replace its own lining every few days?",
+        "a": "Its acid is strong enough to digest the stomach itself, so the lining must constantly renew."
+      }
+    },
+    {
+      "id": "taller-morning",
+      "tags": ["body"],
+      "text": "You're about a centimeter taller in the morning than at night. Through the day, gravity gently compresses the soft discs between your vertebrae; lying down overnight lets them spring back.",
+      "quiz": {
+        "q": "Why are you slightly taller in the morning than at night?",
+        "a": "The discs in your spine compress under gravity during the day and re-expand while you lie down."
+      }
+    },
+    {
+      "id": "brain-energy",
+      "tags": ["body", "science"],
+      "text": "Your brain is about 2% of your body weight but burns roughly 20% of your energy — even at rest. Thinking is one of the most expensive things your body does.",
+      "quiz": {
+        "q": "Roughly what share of your body's energy does the brain use, despite its small size?",
+        "a": "About 20%, while being only ~2% of body weight."
+      }
+    },
+    {
+      "id": "honey-never-spoils",
+      "tags": ["food", "history", "science"],
+      "text": "Honey doesn't spoil. Its low water content and natural acidity make it a place bacteria can't grow — archaeologists have found 3,000-year-old honey in Egyptian tombs still edible.",
+      "quiz": {
+        "q": "Why can honey stay edible for thousands of years?",
+        "a": "Very low water content plus acidity stop bacteria and fungi from growing in it."
       }
     }
   ]

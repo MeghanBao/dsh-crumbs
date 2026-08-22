@@ -29,7 +29,7 @@ dsh plugin add dsh-crumbs
 
 ## 三种出现方式
 
-1. **等待时自动出现。** 当一个长任务工具调用（比如 shell 命令）跑超过 `minTaskMs`，碎屑就每隔 `intervalMs` 冒进通知区，并按你正在等的命令选题——`git` 命令配编程冷知识，`concrete` 命令配结构冷知识。任务返回时自动停止并清除。
+1. **等待时自动出现。** 当一个长任务工具调用（比如 shell 命令）跑超过 `minTaskMs`，碎屑就每隔 `intervalMs` 冒进通知区，并按你正在等的命令轻度选题——`git` 命令偏向编程冷知识，`planet` 偏向天文；否则就是完整的跨领域随机库。任务返回时自动停止并清除。
 2. **`/crumb` 命令** —— 随手要一条：`/crumb`、`/crumb git`、`/crumb concrete`。
 3. **`crumb` 工具** —— 模型可直接调用；命令内部用它，任何想要一条冷知识的 agent 流程也能用。
 
@@ -61,7 +61,7 @@ dsh plugin add dsh-crumbs
 
 ## 碎屑库
 
-碎屑都在 [`data/crumbs.json`](./data/crumbs.json) —— 精选、经核实、带标签（`coding`、`construction`、`structural`、`materials`、`science`、`space`、`history`、`engineering`）。每条都有一段 `text` 陈述，外加一个可选的 `quiz` 问答形式。主题相关性靠的是「当前任务关键词 ↔ 标签」的纯匹配——不调模型、不联网。
+碎屑都在 [`data/crumbs.json`](./data/crumbs.json) —— 精选、经核实、通用不限领域。标签覆盖 `coding`、`science`、`space`、`nature`、`history`、`geography`、`language`、`math`、`art`、`food`、`body`。每条都有一段 `text` 陈述，外加一个 `quiz` 问答形式。主题相关性靠的是「当前任务关键词 ↔ 标签」的纯匹配——不调模型、不联网。
 
 碎屑是消遣，不是事实来源。它们在我们能力范围内力求准确，但插件明确告诉模型：不要引用它、也不要基于它继续推理。
 

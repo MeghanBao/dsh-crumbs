@@ -29,7 +29,7 @@ dsh plugin add dsh-crumbs
 
 ## Three ways it shows up
 
-1. **Automatically, while you wait.** When a long-running tool call (e.g. a shell command) runs past `minTaskMs`, crumbs drip into the notification surface every `intervalMs`, seeded by the command you're waiting on — coding facts for a `git` command, structural facts for a `concrete` one. They stop and clear when the task returns.
+1. **Automatically, while you wait.** When a long-running tool call (e.g. a shell command) runs past `minTaskMs`, crumbs drip into the notification surface every `intervalMs`, gently seeded by the command you're waiting on — a `git` command nudges toward coding facts, a `planet` one toward space. Otherwise you just get the full, cross-domain pool. They stop and clear when the task returns.
 2. **`/crumb` command** — ask for one on demand: `/crumb`, `/crumb git`, `/crumb concrete`.
 3. **`crumb` tool** — the model can call it directly; used by the command and available to any agent flow that wants a fact.
 
@@ -61,7 +61,7 @@ Everything is opt-out with safe defaults.
 
 ## The crumb pool
 
-Crumbs live in [`data/crumbs.json`](./data/crumbs.json) — curated, fact-checked, and tagged (`coding`, `construction`, `structural`, `materials`, `science`, `space`, `history`, `engineering`). Each entry carries a stated `text` and an optional `quiz` form. Topic relevance is plain tag matching against keywords in the current task — no model call, no network.
+Crumbs live in [`data/crumbs.json`](./data/crumbs.json) — curated, fact-checked, and general-interest, not tied to any field. They're tagged across `coding`, `science`, `space`, `nature`, `history`, `geography`, `language`, `math`, `art`, `food`, and `body`. Each entry carries a stated `text` and a `quiz` form. Topic relevance is plain tag matching against keywords in the current task — no model call, no network.
 
 Crumbs are entertainment, not a source of truth. They're accurate to the best of our checking, but the plugin explicitly tells the model not to cite or build on them.
 
