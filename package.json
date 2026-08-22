@@ -1,0 +1,57 @@
+{
+  "name": "dsh-crumbs",
+  "version": "0.1.0",
+  "description": "Fill dead waiting time: while a long task runs, surface one small, true, topic-relevant fun fact — never touching the agent's context or result.",
+  "type": "module",
+  "main": "src/index.ts",
+  "engines": {
+    "node": ">=20"
+  },
+  "files": [
+    "src",
+    "data",
+    "cordis.yml",
+    "cordis.patch.yml",
+    "README.md",
+    "LICENSE"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "keywords": [
+    "dsh-plugin",
+    "deepseek-harness",
+    "cordis",
+    "fun",
+    "trivia",
+    "waiting",
+    "developer-experience"
+  ],
+  "scripts": {
+    "test": "node --test",
+    "typecheck": "tsc --noEmit",
+    "demo": "node --experimental-strip-types scripts/demo.ts"
+  },
+  "license": "MIT",
+  "author": "MeghanBao",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MeghanBao/dsh-crumbs.git"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "*",
+    "@deepseek-ai/dsh-tools": "*",
+    "@deepseek-ai/dsh-skill": "*"
+  },
+  "peerDependenciesMeta": {
+    "@deepseek-ai/dsh-skill": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.5.0"
+  }
+}
