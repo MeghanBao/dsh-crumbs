@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.2.0
+
+- **Cross-domain pool.** Replaced the construction-heavy starter set with 46 general-interest, fact-checked crumbs spanning coding, science, space, nature, history, geography, language, math, art, food, and body. Topic seeding broadened to match.
+- **`source: pool | model | auto` (default `auto`).** Crumbs can now come from the curated pool, from a **side model** that generates one on the fly (ideally about what you're waiting on), or from the hybrid: model first, pool as the safety net.
+  - The model call is a *side* call — it never touches the main agent's context or result. If no model surface is available, `auto` degrades to the pool, so the plugin always works.
+  - Generated crumbs are marked `verified: false` and rendered with `✨` (pool crumbs stay `💡`, `verified: true`).
+- **New `src/source.ts`** with pure, tested prompt-building and response-parsing, plus a best-effort `resolveModelCaller` that probes the host for a model surface. 14 new source tests; 40 tests total.
+
 ## 0.1.0 — initial
 
 First working version.

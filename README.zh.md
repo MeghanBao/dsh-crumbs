@@ -55,9 +55,23 @@ dsh plugin add dsh-crumbs
   "minTaskMs": 8000,     // 任务至少跑这么久才触发
   "intervalMs": 12000,   // 任务持续时，两条碎屑之间的间隔
   "mode": "fact",        // "fact" | "quiz"
+  "source": "auto",      // "pool" | "model" | "auto"（见下）
   "longTools": ["bash", "shell", "exec", "run"]  // 哪些工具调用算「长任务」
 }
 ```
+
+## 碎屑从哪来
+
+| `source` | 行为 |
+|----------|------|
+| `pool` | 只用精选、经核实的静态库。零成本、离线、绝对准确。 |
+| `model` | 由一个**侧模型**现生成一条——最好就讲你正在等的这件事。没有可用模型时返回空。 |
+| `auto`（默认） | 先试侧模型；不可用或没生成出来，就回落静态库。 |
+
+有两点必须讲清楚：
+
+- **模型是「侧」调用。** 它绝不在主 agent 的上下文里跑、也不往里写。生成碎屑不会污染或拖慢你正在等的任务。如果 host 没有暴露模型接口（离线、内网隔离、没 endpoint），`auto` 会静默回落到静态库，插件永远能用。
+- **模型碎屑未经核实。** 它们回来时带 `verified: false`，用 `✨` 渲染（静态库碎屑用 `💡`、`verified: true`）。现生成的冷知识可能一本正经地错——插件明确告诉模型绝不引用/据此推理，你也应把 `✨` 那些当消遣、别当事实。
 
 ## 碎屑库
 
@@ -69,7 +83,8 @@ dsh plugin add dsh-crumbs
 
 ```sh
 node --experimental-strip-types scripts/demo.ts --topic "git rebase" --task 9000
-node --experimental-strip-types scripts/demo.ts --topic "concrete slab rebar" --mode quiz
+node --experimental-strip-types scripts/demo.ts --topic "octopus" --mode quiz
+node --experimental-strip-types scripts/demo.ts --source auto --mock-model   # 看 ✨ 现生成路径 + 静态库回落
 ```
 
 ## 开发
@@ -84,6 +99,7 @@ npm run demo      # 在终端里看等待体验
 ```
 src/crumbs.ts   库的 加载/排序/挑选/渲染   （纯函数）
 src/topic.ts    任务文本 → 主题标签         （纯函数）
+src/source.ts   pool / model / auto 三种碎屑来源（纯函数 + best-effort 调用）
 src/config.ts   环境变量 + 按仓库配置        （纯函数）
 src/skill.ts    /crumb 命令载荷             （纯函数）
 src/index.ts    插件：crumb 工具 + 长任务钩子 + skill 接线

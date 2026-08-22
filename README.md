@@ -55,9 +55,23 @@ Everything is opt-out with safe defaults.
   "minTaskMs": 8000,     // a task must run this long to qualify
   "intervalMs": 12000,   // gap between crumbs while it keeps running
   "mode": "fact",        // "fact" | "quiz"
+  "source": "auto",      // "pool" | "model" | "auto"  (see below)
   "longTools": ["bash", "shell", "exec", "run"]  // which tool calls count as "long"
 }
 ```
+
+## Where crumbs come from
+
+| `source` | Behavior |
+|----------|----------|
+| `pool` | Only the curated, fact-checked pool. Zero cost, offline, always accurate. |
+| `model` | A **side model** generates a crumb on the fly — ideally about the very thing you're waiting on. Falls back to nothing if no model surface is available. |
+| `auto` *(default)* | Try the side model; if it's unavailable or returns nothing, fall back to the pool. |
+
+Two things worth being explicit about:
+
+- **The model is a *side* call.** It never runs in — or writes to — the main agent's context. Generating a crumb can't pollute or slow the task you're waiting on. If the host exposes no model surface (offline, air-gapped, no endpoint), `auto` silently degrades to the pool, so the plugin always works.
+- **Model crumbs are unverified.** They come back marked `verified: false` and rendered with a `✨` (pool crumbs use `💡` and are `verified: true`). Generated trivia can be confidently wrong — the plugin tells the model never to cite or build on a crumb, and you should treat `✨` ones as entertainment, not fact.
 
 ## The crumb pool
 
@@ -69,7 +83,8 @@ Crumbs are entertainment, not a source of truth. They're accurate to the best of
 
 ```sh
 node --experimental-strip-types scripts/demo.ts --topic "git rebase" --task 9000
-node --experimental-strip-types scripts/demo.ts --topic "concrete slab rebar" --mode quiz
+node --experimental-strip-types scripts/demo.ts --topic "octopus" --mode quiz
+node --experimental-strip-types scripts/demo.ts --source auto --mock-model   # see the ✨ generated path + pool fallback
 ```
 
 ## Development
@@ -84,6 +99,7 @@ Layout:
 ```
 src/crumbs.ts   pool load / rank / pick / render   (pure)
 src/topic.ts    task text → topic tags             (pure)
+src/source.ts   pool / model / auto crumb sources  (pure + best-effort caller)
 src/config.ts   env + per-repo config              (pure)
 src/skill.ts    /crumb command payload             (pure)
 src/index.ts    plugin: crumb tool + long-task hook + skill wiring
