@@ -191,6 +191,26 @@ export function resolveModelCaller(ctx: any): ModelCaller | null {
   return null
 }
 
+// A crumb is throwaway entertainment, so bias model choice toward small/fast
+// models and away from expensive reasoning or large ones. The host exposes no
+// pricing, so this is a name/id heuristic — good enough to avoid burning a
+// flagship model on trivia. Ties keep the endpoint's own (preferred) order.
+const CHEAP_HINTS = [/mini/i, /flash/i, /lite/i, /small/i, /nano/i, /tiny/i, /haiku/i, /\bchat\b/i, /\b([1-9]|1[0-6])b\b/i]
+const PRICEY_HINTS = [/reason/i, /think/i, /opus/i, /\bpro\b/i, /ultra/i, /\b(2[0-9]|[3-9][0-9]|[1-9][0-9]{2,})b\b/i]
+
+/** Choose the cheapest-looking model id from a discovered list. Pure. */
+export function preferModel(ids: readonly string[]): string | undefined {
+  if (ids.length === 0) return undefined
+  const score = (id: string) => {
+    let s = 0
+    if (CHEAP_HINTS.some((re) => re.test(id))) s -= 1
+    if (PRICEY_HINTS.some((re) => re.test(id))) s += 1
+    return s
+  }
+  // Lowest score wins; strict `<` keeps the earliest (endpoint-preferred) on ties.
+  return ids.reduce((best, id) => (score(id) < score(best) ? id : best), ids[0])
+}
+
 /** Mint a one-off user MessageId. Branded compile-time; a plain unique string at runtime. */
 function mintMessageId(): any {
   return `crumb-${Date.now()}-${Math.random().toString(36).slice(2)}`
@@ -213,9 +233,11 @@ function makeLlmRuntimeCaller(llm: any): ModelCaller {
       if (typeof provider !== 'string') continue
       try {
         const models: any[] = (typeof llm.listModels === 'function' ? await llm.listModels(provider) : []) ?? []
-        const first = models[0]
-        const model = typeof first === 'string' ? first : first?.id
-        if (typeof model === 'string') {
+        const ids = models
+          .map((m) => (typeof m === 'string' ? m : m?.id))
+          .filter((id): id is string => typeof id === 'string')
+        const model = preferModel(ids)
+        if (model) {
           route = { provider, model }
           return route
         }
@@ -234,7 +256,7 @@ function makeLlmRuntimeCaller(llm: any): ModelCaller {
       model: r.model,
       system,
       temperature: 0.9,
-      maxTokens: 200,
+      maxTokens: 120,
       messages: [
         { id: mintMessageId(), role: 'user', content: [{ type: 'text', text: prompt }], source: { kind: 'user' } },
       ],

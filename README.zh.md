@@ -31,6 +31,8 @@ dsh plugin add dsh-crumbs
 2. **`/crumb` 命令** —— 随手要一条：`/crumb`、`/crumb git`、`/crumb concrete`。
 3. **`crumb` 工具** —— 模型可直接调用；命令内部用它，任何想要一条冷知识的 agent 流程也能用。
 
+> **自动碎屑到底显示在哪。** 标准 cordis host 没有「toast」接口，所以自动路径是通过 `ctx.logger` 冒出来的——也就是一条 host **日志**，暂时还不是 Web UI 里的卡片。要做成 UI 里可见，需要像其它通知插件那样附一个浏览器端 client 资源，这是主要的待办。`/crumb` 命令和 `crumb` 工具走正常的 tool/skill 通道，不受影响。
+
 ## `crumb` 工具
 
 | 参数 | 类型 | 说明 |

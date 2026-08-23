@@ -9,6 +9,7 @@ import {
   parseFact,
   parseQuiz,
   poolSource,
+  preferModel,
   resolveModelCaller,
   topicPhrase,
   type CrumbSource,
@@ -108,6 +109,35 @@ test('poolSource returns a verified crumb from the bundled pool', async () => {
   assert.ok(out)
   assert.equal(out!.verified, true)
   assert.ok(out!.id) // pool crumbs carry an id
+})
+
+test('preferModel biases toward cheap/small, away from reasoning/large', () => {
+  assert.equal(preferModel([]), undefined)
+  assert.equal(preferModel(['only-one']), 'only-one')
+  assert.equal(preferModel(['deepseek-reasoner', 'deepseek-chat']), 'deepseek-chat')
+  assert.equal(preferModel(['gpt-4o', 'gpt-4o-mini']), 'gpt-4o-mini')
+  assert.equal(preferModel(['llama-70b', 'llama-8b']), 'llama-8b')
+  assert.equal(preferModel(['claude-opus', 'claude-haiku']), 'claude-haiku')
+  assert.equal(preferModel(['alpha', 'beta']), 'alpha') // ties keep endpoint order
+})
+
+test('native caller prefers a cheap model and caps output tokens', async () => {
+  const captured: any = {}
+  const ctx = {
+    llm: {
+      listProviders: () => [{ id: 'deepseek' }],
+      listModels: async () => [{ id: 'deepseek-reasoner' }, { id: 'deepseek-chat' }],
+      async *stream(options: any) {
+        captured.options = options
+        yield { type: 'text-delta', index: 0, text: 'hi' }
+        yield { type: 'finish', reason: 'stop' }
+      },
+    },
+  }
+  const call = resolveModelCaller(ctx)
+  await call!('x')
+  assert.equal(captured.options.model, 'deepseek-chat')
+  assert.equal(captured.options.maxTokens, 120)
 })
 
 test('resolveModelCaller drives the native dsh LlmRuntime stream', async () => {

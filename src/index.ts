@@ -86,15 +86,22 @@ async function nextCrumb(config: CrumbsConfig, topic?: string, mode: 'fact' | 'q
 
 /**
  * Best-effort notifier: surface a crumb to the user without touching the agent's
- * context or the tool result. dsh hosts expose different surfaces; try the
- * likely ones and give up quietly if none exist. A crumb is never important
- * enough to throw.
+ * context or the tool result. A crumb is never important enough to throw.
+ *
+ * The only surface a standard cordis host actually exposes is `ctx.logger`
+ * (callable for a named logger, and itself carrying the severity methods) — so
+ * on a plain host a crumb lands as a *log line*, not a visible UI toast. A truly
+ * visible surface (a Web UI card) needs a client asset, like other notification
+ * plugins ship; that's tracked as future work in the README. We prefer a named
+ * logger, fall back to the default logger, and finally probe a hypothetical
+ * direct notification API for hosts that add one.
  */
-function notify(ctx: any, text: string): void {
+export function notify(ctx: any, text: string): void {
   try {
+    const logger = ctx?.logger
+    if (typeof logger === 'function') return void logger('dsh-crumbs').info(text)
+    if (typeof logger?.info === 'function') return void logger.info(text)
     if (typeof ctx?.notify?.info === 'function') return void ctx.notify.info(text)
-    if (typeof ctx?.ui?.notify === 'function') return void ctx.ui.notify({ level: 'info', text })
-    if (typeof ctx?.logger?.info === 'function') return void ctx.logger.info(text)
   } catch {
     /* no surface available — the crumb just doesn't show */
   }
@@ -144,6 +151,10 @@ function installLongTaskHook(ctx: any): void {
           let shown = 0
           const drip = async () => {
             const c = await nextCrumb(config, seedText, config.mode)
+            // The task may have returned (post-execute cleared us) while we were
+            // generating — model calls take seconds. If so, don't surface a late
+            // crumb or reschedule: the loop is dead the moment its key is gone.
+            if (!timers.has(key)) return
             if (c) notify(ctx, display(c))
             // Stop at the cap even if post-execute never clears us.
             if (++shown >= MAX_CRUMBS_PER_TASK) return void clear(key)

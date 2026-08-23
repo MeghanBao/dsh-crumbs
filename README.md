@@ -31,6 +31,8 @@ dsh plugin add dsh-crumbs
 2. **`/crumb` command** — ask for one on demand: `/crumb`, `/crumb git`, `/crumb concrete`.
 3. **`crumb` tool** — the model can call it directly; used by the command and available to any agent flow that wants a fact.
 
+> **Where the auto crumb actually appears.** A standard cordis host exposes no "toast" API, so the automatic path surfaces each crumb through `ctx.logger` — i.e. as a host **log line**, not (yet) a card in the Web UI. A visible in-UI surface needs a small client asset like other notification plugins ship; that's the main piece of future work. The `/crumb` command and `crumb` tool return through the normal tool/skill channel and are unaffected.
+
 ## The `crumb` tool
 
 | Param | Type | Notes |
