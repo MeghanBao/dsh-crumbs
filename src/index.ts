@@ -20,12 +20,33 @@ export const inject = ['tools']
 // process-local, and purely cosmetic — losing it costs nothing. Model crumbs
 // have no id and are simply not tracked.
 const RECENT_MAX = 8
-const recent: string[] = []
+const recent: string[] = [] // pool crumb ids
+const recentText: string[] = [] // recent crumb texts (icon-stripped), for model dedup
 
 function remember(id: string): void {
   recent.push(id)
   while (recent.length > RECENT_MAX) recent.shift()
 }
+
+function rememberText(text: string): void {
+  recentText.push(text)
+  while (recentText.length > RECENT_MAX) recentText.shift()
+}
+
+/** A crumb's text with its leading icon/whitespace removed. */
+function coreText(text: string): string {
+  return text.replace(/^[^\p{L}\p{N}]+/u, '').trim()
+}
+
+/** True when `core` matches something we've shown recently (case/space-insensitive). */
+function isRepeat(core: string): boolean {
+  const norm = (s: string) => s.toLowerCase().replace(/\s+/g, ' ')
+  const n = norm(core)
+  return recentText.some((t) => norm(t) === n)
+}
+
+// How many times to re-ask a generative source for a non-repeat before giving up.
+const GENERATE_TRIES = 3
 
 // Sources are built once per plugin load; the model caller is discovered then.
 let pool: CrumbSource
@@ -37,17 +58,30 @@ function sourceFor(config: CrumbsConfig): CrumbSource {
   return autoSource(model, pool) // auto: model first, pool as safety net
 }
 
-/** Pick one crumb via the configured source, avoiding recent repeats. */
+/**
+ * Pick one crumb via the configured source, avoiding recent repeats. Pool crumbs
+ * are de-duplicated by id; model crumbs have no id, so recent texts are both fed
+ * to the model (to steer it away) and used to reject and re-ask on a near-repeat.
+ */
 async function nextCrumb(config: CrumbsConfig, topic?: string, mode: 'fact' | 'quiz' = 'fact') {
-  const suggestion = await sourceFor(config).generate({
-    topic,
-    seedTags: seedFromText(topic),
-    mode,
-    excludeIds: recent,
-  })
-  if (!suggestion) return null
-  if (suggestion.id) remember(suggestion.id)
-  return suggestion
+  const source = sourceFor(config)
+  const seedTags = seedFromText(topic)
+  for (let i = 0; i < GENERATE_TRIES; i++) {
+    const suggestion = await source.generate({ topic, seedTags, mode, excludeIds: recent, avoidTexts: recentText })
+    if (!suggestion) return null
+    const core = coreText(suggestion.text)
+    if (suggestion.id) {
+      // Pool crumb: already de-duplicated by excludeIds; accept and record.
+      remember(suggestion.id)
+      rememberText(core)
+      return suggestion
+    }
+    // Model crumb: skip a near-repeat and ask again.
+    if (isRepeat(core)) continue
+    rememberText(core)
+    return suggestion
+  }
+  return null
 }
 
 /**

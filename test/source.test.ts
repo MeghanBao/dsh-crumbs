@@ -2,6 +2,7 @@ import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import {
   autoSource,
+  avoidClause,
   buildFactPrompt,
   buildQuizPrompt,
   modelSource,
@@ -30,6 +31,21 @@ test('prompts mention the topic', () => {
   assert.match(buildFactPrompt(opts), /octopus/)
   assert.match(buildQuizPrompt(opts), /octopus/)
   assert.match(buildQuizPrompt(opts), /Q:/)
+})
+
+test('avoidClause lists recent facts, empty when none', () => {
+  assert.equal(avoidClause(), '')
+  assert.equal(avoidClause([]), '')
+  assert.equal(avoidClause(['   ']), '') // blanks dropped
+  const c = avoidClause(['Honey never spoils.', 'Sharks predate trees.'])
+  assert.match(c, /Honey never spoils\./)
+  assert.match(c, /Sharks predate trees\./)
+})
+
+test('prompts fold in the avoid list so the model skips repeats', () => {
+  const opts = { topic: 'space', seedTags: [], mode: 'fact' as const, avoidTexts: ['A neutron star spins fast.'] }
+  assert.match(buildFactPrompt(opts), /neutron star spins fast/)
+  assert.match(buildQuizPrompt(opts), /neutron star spins fast/)
 })
 
 test('parseFact strips preamble, quotes, and caps length', () => {

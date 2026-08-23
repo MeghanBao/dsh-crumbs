@@ -25,6 +25,8 @@ export interface GenerateOpts {
   seedTags: string[]
   mode: 'fact' | 'quiz'
   excludeIds?: Iterable<string>
+  /** Recently shown crumb texts the model should not repeat or paraphrase. */
+  avoidTexts?: string[]
 }
 
 export interface CrumbSource {
@@ -67,15 +69,29 @@ export function topicPhrase(opts: GenerateOpts): string {
   return 'anything interesting'
 }
 
+/**
+ * A prompt clause listing recently shown crumbs so the model steers clear of
+ * them. Keeps the last few (a long list wastes tokens). Empty when there's
+ * nothing to avoid. Pure.
+ */
+export function avoidClause(avoid?: string[]): string {
+  const list = (avoid ?? []).map((t) => t.trim()).filter(Boolean).slice(-8)
+  if (!list.length) return ''
+  return (
+    ` Do NOT repeat or closely paraphrase any of these recently shown facts:\n` +
+    `${list.map((t) => `- ${t}`).join('\n')}\n`
+  )
+}
+
 /** Prompt for a stated fact. Pure. */
 export function buildFactPrompt(opts: GenerateOpts): string {
-  return `Give ONE short, true, surprising fact related to: ${topicPhrase(opts)}. Reply with just the fact, no preamble.`
+  return `Give ONE short, true, surprising fact related to: ${topicPhrase(opts)}.${avoidClause(opts.avoidTexts)} Reply with just the fact, no preamble.`
 }
 
 /** Prompt for an ask-first quiz. Pure. */
 export function buildQuizPrompt(opts: GenerateOpts): string {
   return (
-    `Give ONE short trivia question (with its true answer) related to: ${topicPhrase(opts)}.\n` +
+    `Give ONE short trivia question (with its true answer) related to: ${topicPhrase(opts)}.${avoidClause(opts.avoidTexts)}\n` +
     `Reply on exactly two lines:\nQ: <question>\nA: <answer>`
   )
 }
