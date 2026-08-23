@@ -25,8 +25,9 @@ export interface CrumbsConfig {
   /**
    * Where crumbs come from:
    *   pool  — only the curated, verified pool.
-   *   model — only a side-model generation (falls back to null if unavailable).
-   *   auto  — side model when available, else the pool (default).
+   *   model — only a side-model generation (default); shows nothing if no model
+   *           surface is available, so nothing offline unless you switch to auto.
+   *   auto  — side model when available, else the pool as a safety net.
    */
   source: CrumbSourceKind
 }
@@ -37,7 +38,7 @@ export const DEFAULT_CONFIG: CrumbsConfig = {
   intervalMs: 12000,
   mode: 'fact',
   longTools: ['bash', 'shell', 'exec', 'run'],
-  source: 'auto',
+  source: 'model',
 }
 
 export const CONFIG_REL = join('.dsh', 'crumbs.config.json')

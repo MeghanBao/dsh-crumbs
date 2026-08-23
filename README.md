@@ -55,7 +55,7 @@ Everything is opt-out with safe defaults.
   "minTaskMs": 8000,     // a task must run this long to qualify
   "intervalMs": 12000,   // gap between crumbs while it keeps running
   "mode": "fact",        // "fact" | "quiz"
-  "source": "auto",      // "pool" | "model" | "auto"  (see below)
+  "source": "model",     // "pool" | "model" | "auto"  (see below)
   "longTools": ["bash", "shell", "exec", "run"]  // which tool calls count as "long"
 }
 ```
@@ -65,12 +65,12 @@ Everything is opt-out with safe defaults.
 | `source` | Behavior |
 |----------|----------|
 | `pool` | Only the curated, fact-checked pool. Zero cost, offline, always accurate. |
-| `model` | A **side model** generates a crumb on the fly — ideally about the very thing you're waiting on. Falls back to nothing if no model surface is available. |
-| `auto` *(default)* | Try the side model; if it's unavailable or returns nothing, fall back to the pool. |
+| `model` *(default)* | A **side model** generates a crumb on the fly — ideally about the very thing you're waiting on. Shows nothing if no model surface is available (use `auto` if you want an offline safety net). |
+| `auto` | Try the side model; if it's unavailable or returns nothing, fall back to the pool. |
 
 Two things worth being explicit about:
 
-- **The model is a *side* call.** It uses the harness LLM service (`ctx.llm.stream` from `@deepseek-ai/dsh-llm`) with a one-shot user message — it never runs in, or writes to, the main agent's context, so generating a crumb can't pollute or slow the task you're waiting on. If the host exposes no model surface (offline, air-gapped, no endpoint), `auto` silently degrades to the pool, so the plugin always works.
+- **The model is a *side* call.** It uses the harness LLM service (`ctx.llm.stream` from `@deepseek-ai/dsh-llm`) with a one-shot user message — it never runs in, or writes to, the main agent's context, so generating a crumb can't pollute or slow the task you're waiting on. If the host exposes no model surface (offline, air-gapped, no endpoint), the default `model` source shows nothing — switch to `auto` and it silently degrades to the pool so the plugin always works.
 - **Model crumbs are unverified.** They come back marked `verified: false` and rendered with a `✨` (pool crumbs use `💡` and are `verified: true`). Generated trivia can be confidently wrong — the plugin tells the model never to cite or build on a crumb, and you should treat `✨` ones as entertainment, not fact.
 
 ## The crumb pool

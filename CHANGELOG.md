@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- **Default `source` is now `model`** (was `auto`): out of the box, crumbs are generated on the fly by the side model rather than drawn from the curated pool. Note the tradeoff — with no model surface (offline/air-gapped) the default shows nothing; set `source: "auto"` for the old model-first-then-pool safety net, or `"pool"` for the offline curated set.
 - **Long-task hook: safety cap + leak fix.** A single task now drips at most `MAX_CRUMBS_PER_TASK` (5) crumbs and self-terminates, so a task whose `post-execute` never fires (host error, aborted tool, or a mismatched exec object) can no longer drip crumbs forever. The drip loop only starts when there's a stable object key to clear it by.
 - **Config: `source: "auto"` is now explicitly accepted** in `mergeConfig` instead of relying on it happening to equal the default.
 - **Fixed a type hole** in the `crumb` tool's `render` (optional `text` could be `undefined`); `typecheck` now passes clean.

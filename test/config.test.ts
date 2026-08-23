@@ -31,14 +31,14 @@ test('mergeConfig ignores wrong-typed fields', () => {
   assert.equal(c.minTaskMs, DEFAULT_CONFIG.minTaskMs) // negative ignored
   assert.deepEqual(c.longTools, DEFAULT_CONFIG.longTools) // non-string array ignored
   assert.equal(c.mode, 'fact') // unknown mode falls back
-  assert.equal(c.source, 'auto') // unknown source falls back to default
+  assert.equal(c.source, 'model') // unknown source falls back to default
 })
 
-test('source accepts pool | model | auto, defaults to auto', () => {
-  assert.equal(mergeConfig({ source: 'model' }).source, 'model')
+test('source accepts pool | model | auto, defaults to model', () => {
+  assert.equal(mergeConfig({ source: 'pool' }).source, 'pool')
   assert.equal(mergeConfig({ source: 'auto' }).source, 'auto')
-  assert.equal(mergeConfig({}).source, 'auto')
-  assert.equal(DEFAULT_CONFIG.source, 'auto')
+  assert.equal(mergeConfig({}).source, 'model')
+  assert.equal(DEFAULT_CONFIG.source, 'model')
 })
 
 test('intervalMs has a floor of 1000ms', () => {

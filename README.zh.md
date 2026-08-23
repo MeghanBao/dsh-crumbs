@@ -55,7 +55,7 @@ dsh plugin add dsh-crumbs
   "minTaskMs": 8000,     // 任务至少跑这么久才触发
   "intervalMs": 12000,   // 任务持续时，两条碎屑之间的间隔
   "mode": "fact",        // "fact" | "quiz"
-  "source": "auto",      // "pool" | "model" | "auto"（见下）
+  "source": "model",     // "pool" | "model" | "auto"（见下）
   "longTools": ["bash", "shell", "exec", "run"]  // 哪些工具调用算「长任务」
 }
 ```
@@ -65,12 +65,12 @@ dsh plugin add dsh-crumbs
 | `source` | 行为 |
 |----------|------|
 | `pool` | 只用精选、经核实的静态库。零成本、离线、绝对准确。 |
-| `model` | 由一个**侧模型**现生成一条——最好就讲你正在等的这件事。没有可用模型时返回空。 |
-| `auto`（默认） | 先试侧模型；不可用或没生成出来，就回落静态库。 |
+| `model`（默认） | 由一个**侧模型**现生成一条——最好就讲你正在等的这件事。没有可用模型时不显示（想要离线兜底就用 `auto`）。 |
+| `auto` | 先试侧模型；不可用或没生成出来，就回落静态库。 |
 
 有两点必须讲清楚：
 
-- **模型是「侧」调用。** 它走 harness 的 LLM 服务（`@deepseek-ai/dsh-llm` 的 `ctx.llm.stream`），用一条一次性 user 消息——绝不在主 agent 的上下文里跑、也不往里写，所以生成碎屑不会污染或拖慢你正在等的任务。如果 host 没有暴露模型接口（离线、内网隔离、没 endpoint），`auto` 会静默回落到静态库，插件永远能用。
+- **模型是「侧」调用。** 它走 harness 的 LLM 服务（`@deepseek-ai/dsh-llm` 的 `ctx.llm.stream`），用一条一次性 user 消息——绝不在主 agent 的上下文里跑、也不往里写，所以生成碎屑不会污染或拖慢你正在等的任务。如果 host 没有暴露模型接口（离线、内网隔离、没 endpoint），默认的 `model` 来源会什么都不显示——换成 `auto` 就会静默回落到静态库，插件永远能用。
 - **模型碎屑未经核实。** 它们回来时带 `verified: false`，用 `✨` 渲染（静态库碎屑用 `💡`、`verified: true`）。现生成的冷知识可能一本正经地错——插件明确告诉模型绝不引用/据此推理，你也应把 `✨` 那些当消遣、别当事实。
 
 ## 碎屑库
