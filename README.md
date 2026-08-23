@@ -19,8 +19,6 @@ It never touches the agent's context, never changes the task, and never appears 
 
 Every tool for long-running agents optimizes the same thing: letting the agent run *unattended* — pause/resume, context compaction, status polling. But a lot of the time a human **is** watching: local runs, CLI sessions, non-technical users. That attended-but-idle stretch — attention still on, nothing to do — is a gap nobody fills. Loading-screen tips are static and unrelated; general trivia bots aren't tied to what you're doing. `dsh-crumbs` is the small, opinionated thing that fills exactly that gap.
 
-Sibling to [dsh-backstory](https://github.com/MeghanBao/dsh-backstory): that one gives code back its *why*; this one gives waiting back a little *meaning*.
-
 ## Install
 
 ```sh
@@ -29,7 +27,7 @@ dsh plugin add dsh-crumbs
 
 ## Three ways it shows up
 
-1. **Automatically, while you wait.** When a long-running tool call (e.g. a shell command) runs past `minTaskMs`, crumbs drip into the notification surface every `intervalMs`, gently seeded by the command you're waiting on — a `git` command nudges toward coding facts, a `planet` one toward space. Otherwise you just get the full, cross-domain pool. They stop and clear when the task returns.
+1. **Automatically, while you wait.** When a long-running tool call (e.g. a shell command) runs past `minTaskMs`, crumbs drip into the notification surface every `intervalMs`, seeded by the command you're waiting on — a `git` command nudges toward coding facts, a `planet` one toward space. This path uses the same configured `source` as everything else, so by default each crumb is generated on the fly by the side model (see [Where crumbs come from](#where-crumbs-come-from)). They stop and clear when the task returns.
 2. **`/crumb` command** — ask for one on demand: `/crumb`, `/crumb git`, `/crumb concrete`.
 3. **`crumb` tool** — the model can call it directly; used by the command and available to any agent flow that wants a fact.
 
