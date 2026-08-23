@@ -90,7 +90,7 @@ node --experimental-strip-types scripts/demo.ts --source auto --mock-model   # s
 ## Development
 
 ```sh
-npm test          # 24 unit tests: pool parsing, ranking, topic seeding, config
+npm test          # unit tests: pool parsing, ranking, topic seeding, config, sources
 npm run demo      # see the waiting experience in your terminal
 ```
 

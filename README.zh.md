@@ -90,7 +90,7 @@ node --experimental-strip-types scripts/demo.ts --source auto --mock-model   # �
 ## 开发
 
 ```sh
-npm test          # 24 个单元测试：库解析、排序、主题选题、配置
+npm test          # 单元测试：库解析、排序、主题选题、配置、来源
 npm run demo      # 在终端里看等待体验
 ```
 

@@ -61,7 +61,10 @@ export function mergeConfig(raw: unknown): CrumbsConfig {
       Array.isArray(r.longTools) && r.longTools.every((x) => typeof x === 'string')
         ? (r.longTools as string[])
         : DEFAULT_CONFIG.longTools,
-    source: r.source === 'pool' || r.source === 'model' ? r.source : DEFAULT_CONFIG.source,
+    source:
+      r.source === 'pool' || r.source === 'model' || r.source === 'auto'
+        ? r.source
+        : DEFAULT_CONFIG.source,
   }
 }
 

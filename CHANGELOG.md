@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased
+
+- **Long-task hook: safety cap + leak fix.** A single task now drips at most `MAX_CRUMBS_PER_TASK` (5) crumbs and self-terminates, so a task whose `post-execute` never fires (host error, aborted tool, or a mismatched exec object) can no longer drip crumbs forever. The drip loop only starts when there's a stable object key to clear it by.
+- **Config: `source: "auto"` is now explicitly accepted** in `mergeConfig` instead of relying on it happening to equal the default.
+- **Fixed a type hole** in the `crumb` tool's `render` (optional `text` could be `undefined`); `typecheck` now passes clean.
+- **CI** — GitHub Actions runs `npm run typecheck` + `npm test` on Node 20 and 22.
+- **Packaging** — `README.zh.md`, `CHANGELOG.md`, and `CONTRIBUTING.md` are now included in the npm tarball (the zh README link no longer 404s on npm).
+
 ## 0.2.0
 
 - **Cross-domain pool.** Replaced the construction-heavy starter set with 46 general-interest, fact-checked crumbs spanning coding, science, space, nature, history, geography, language, math, art, food, and body. Topic seeding broadened to match.

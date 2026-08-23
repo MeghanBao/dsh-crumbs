@@ -74,35 +74,49 @@ function display(s: CrumbSuggestion): string {
 // Long-task hook: while a long-running tool call is in flight, drip crumbs.
 // ---------------------------------------------------------------------------
 
+// A safety cap: even if a task's post-execute never fires (host error, aborted
+// tool, or a mismatched exec object), a single task can never drip more than
+// this many crumbs. The loop self-terminates at the cap.
+const MAX_CRUMBS_PER_TASK = 5
+
 function installLongTaskHook(ctx: any): void {
   if (isDisabledByEnv(process.env)) return
 
-  const timers = new Map<unknown, ReturnType<typeof setTimeout>>()
+  // Keyed by the exec object so post-execute can find and clear the loop. We
+  // only ever start a loop when we have a real object key (see below).
+  const timers = new Map<object, ReturnType<typeof setTimeout>>()
 
   const clear = (key: unknown) => {
-    const t = timers.get(key)
+    if (!key || typeof key !== 'object') return
+    const t = timers.get(key as object)
     if (t) {
       clearTimeout(t)
-      timers.delete(key)
+      timers.delete(key as object)
     }
   }
 
   ctx.on?.('tools/pre-execute', async (exec: any, next: any) => {
     try {
-      const cwd = exec?.agent?.session?.header?.cwd ?? process.cwd()
-      const config = await loadConfig(cwd)
-      const toolName = String(exec?.name ?? '')
-      if (config.autoSurface && config.longTools.includes(toolName)) {
-        const key = exec ?? Symbol()
-        // Seed the topic from the command/args of the task we're waiting on.
-        const seedText = JSON.stringify(exec?.arguments ?? '')
-        const drip = async () => {
-          const c = await nextCrumb(config, seedText, config.mode)
-          if (c) notify(ctx, display(c))
-          // keep dripping until post-execute clears us
-          timers.set(key, setTimeout(drip, config.intervalMs))
+      // A stable object key is what lets post-execute stop this loop. Without
+      // one we can't guarantee cleanup, so we don't start dripping at all.
+      if (exec && typeof exec === 'object') {
+        const cwd = exec?.agent?.session?.header?.cwd ?? process.cwd()
+        const config = await loadConfig(cwd)
+        const toolName = String(exec?.name ?? '')
+        if (config.autoSurface && config.longTools.includes(toolName)) {
+          const key: object = exec
+          // Seed the topic from the command/args of the task we're waiting on.
+          const seedText = JSON.stringify(exec?.arguments ?? '')
+          let shown = 0
+          const drip = async () => {
+            const c = await nextCrumb(config, seedText, config.mode)
+            if (c) notify(ctx, display(c))
+            // Stop at the cap even if post-execute never clears us.
+            if (++shown >= MAX_CRUMBS_PER_TASK) return void clear(key)
+            timers.set(key, setTimeout(drip, config.intervalMs))
+          }
+          timers.set(key, setTimeout(drip, config.minTaskMs))
         }
-        timers.set(key, setTimeout(drip, config.minTaskMs))
       }
     } catch {
       /* auto-surface is best-effort; never disturb the task */
@@ -164,7 +178,10 @@ export function apply(ctx: Context) {
             verified: { type: 'boolean' },
           },
         },
-        render: (_args, v) => [{ type: 'text', text: v.reveal ? `${v.text}\n${v.reveal}` : v.text }],
+        render: (_args, v) => {
+          const text = v.text ?? ''
+          return [{ type: 'text', text: v.reveal ? `${text}\n${v.reveal}` : text }]
+        },
       },
 
       async execute(args, exec) {
