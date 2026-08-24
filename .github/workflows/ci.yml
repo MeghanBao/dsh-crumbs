@@ -10,7 +10,10 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node: [20, 22]
+        # Tests are authored in TypeScript and run via `node --test`, which needs
+        # native type stripping (unflagged in Node 22.18+/23.6+). Node 20 silently
+        # discovers 0 .ts tests and exits green, so it's excluded from the matrix.
+        node: [22, 24]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
