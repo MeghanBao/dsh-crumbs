@@ -12,6 +12,7 @@ import {
   preferModel,
   resolveModelCaller,
   topicPhrase,
+  withTimeout,
   type CrumbSource,
   type ModelCaller,
 } from '../src/source.ts'
@@ -95,6 +96,13 @@ test('modelSource swallows a throwing caller and yields null', async () => {
   assert.equal(await modelSource(call).generate({ seedTags: [], mode: 'fact' }), null)
 })
 
+test('withTimeout rejects a hung promise but passes a prompt one through', async () => {
+  // A hung call rejects (→ modelSource catches it → null → source falls back),
+  // proven together with the throwing-caller test above (reject → null).
+  await assert.rejects(withTimeout(new Promise(() => {}), 10), /timed out/)
+  assert.equal(await withTimeout(Promise.resolve('ok'), 1000), 'ok')
+})
+
 test('autoSource uses primary when it produces, else the fallback', async () => {
   const primary = fixed('primary', { text: 'P', verified: false })
   const fallback = fixed('fallback', { text: 'F', verified: true })
@@ -169,6 +177,9 @@ test('resolveModelCaller drives the native dsh LlmRuntime stream', async () => {
   assert.equal(captured.options.system, 'be truthful')
   assert.equal(captured.options.messages[0].role, 'user')
   assert.equal(captured.options.messages[0].content[0].text, 'Give a fact')
+  // A timeout abort signal is passed so a stalled stream is torn down.
+  assert.ok(captured.options.signal instanceof AbortSignal)
+  assert.equal(captured.options.signal.aborted, false)
 })
 
 test('native caller yields empty string when no provider/model is available', async () => {

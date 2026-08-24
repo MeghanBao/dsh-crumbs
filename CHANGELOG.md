@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- **Model calls can't hang a crumb.** The side-model call now has an 8s deadline: the native `LlmRuntime` caller aborts its stream via `GenerateOptions.signal` (torn down, not just abandoned), and every caller shape is additionally wrapped in `withTimeout`. A slow or stuck model settles to `null` and the source falls back, instead of stalling the crumb (or, for the drip loop, that iteration).
+
 ## 0.3.0 — 2026-08-24
 
 - **Explicit requests always deliver.** The `crumb` tool and `/crumb` command now

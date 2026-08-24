@@ -62,6 +62,27 @@ const SYSTEM =
   'You supply one small, genuinely TRUE, surprising fact to entertain someone during a short wait. ' +
   'Be accurate and specific; never invent numbers, dates, or names you are unsure of. Keep it to 1-2 sentences.'
 
+// A crumb is best-effort filler, so a slow or hung model call must never stall
+// it. The native caller also aborts the stream at this deadline (see below).
+const MODEL_TIMEOUT_MS = 8000
+
+/** Reject if `p` hasn't settled within `ms`, so a hung call can't block a crumb. */
+export function withTimeout<T>(p: Promise<T>, ms: number): Promise<T> {
+  return new Promise<T>((resolve, reject) => {
+    const timer = setTimeout(() => reject(new Error(`model call timed out after ${ms}ms`)), ms)
+    p.then(
+      (v) => {
+        clearTimeout(timer)
+        resolve(v)
+      },
+      (e) => {
+        clearTimeout(timer)
+        reject(e)
+      },
+    )
+  })
+}
+
 /** Build the topic phrase a crumb should relate to. Pure. */
 export function topicPhrase(opts: GenerateOpts): string {
   if (opts.topic && opts.topic.trim()) return opts.topic.trim()
@@ -128,14 +149,15 @@ export function modelSource(call: ModelCaller | null): CrumbSource {
       if (!call) return null
       try {
         if (opts.mode === 'quiz') {
-          const parsed = parseQuiz(await call(buildQuizPrompt(opts), SYSTEM))
+          const parsed = parseQuiz(await withTimeout(call(buildQuizPrompt(opts), SYSTEM), MODEL_TIMEOUT_MS))
           if (!parsed) return null
           return { text: `✨ ${parsed.q}`, reveal: `✅ ${parsed.a}`, verified: false }
         }
-        const fact = parseFact(await call(buildFactPrompt(opts), SYSTEM))
+        const fact = parseFact(await withTimeout(call(buildFactPrompt(opts), SYSTEM), MODEL_TIMEOUT_MS))
         if (!fact) return null
         return { text: `✨ ${fact}`, verified: false }
       } catch {
+        // Any shortfall — thrown error, timeout — yields null so a source can fall back.
         return null
       }
     },
@@ -251,22 +273,31 @@ function makeLlmRuntimeCaller(llm: any): ModelCaller {
   return async (prompt, system) => {
     const r = await ensureRoute()
     if (!r) return ''
+    // Abort the stream at the deadline so a stalled generation is torn down, not
+    // just abandoned. dsh-llm settles promptly once the signal aborts.
+    const controller = new AbortController()
+    const timer = setTimeout(() => controller.abort(), MODEL_TIMEOUT_MS)
     const options = {
       provider: r.provider,
       model: r.model,
       system,
       temperature: 0.9,
       maxTokens: 120,
+      signal: controller.signal,
       messages: [
         { id: mintMessageId(), role: 'user', content: [{ type: 'text', text: prompt }], source: { kind: 'user' } },
       ],
     }
-    let out = ''
-    for await (const chunk of llm.stream(options)) {
-      if (chunk?.type === 'text-delta' && typeof chunk.text === 'string') out += chunk.text
-      else if (chunk?.type === 'finish') break
+    try {
+      let out = ''
+      for await (const chunk of llm.stream(options)) {
+        if (chunk?.type === 'text-delta' && typeof chunk.text === 'string') out += chunk.text
+        else if (chunk?.type === 'finish') break
+      }
+      return out
+    } finally {
+      clearTimeout(timer)
     }
-    return out
   }
 }
 
