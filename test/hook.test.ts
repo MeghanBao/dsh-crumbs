@@ -50,6 +50,31 @@ test('notify surfaces via the cordis named-logger and never throws', () => {
   assert.doesNotThrow(() => notify(null, 'x'))
 })
 
+test('explicit crumb tool falls back to the pool under source:model with no model surface', async () => {
+  const dir = repoWithConfig({ source: 'model' }) // no ctx.llm -> model caller is null
+  const handlers = new Map<string, Function>()
+  let crumbDef: any = null
+  const ctx: any = {
+    tools: {
+      register(def: any) {
+        if (def?.name === 'crumb') crumbDef = def
+      },
+    },
+    logger: (_: string) => ({ info() {}, warn() {} }),
+    on(event: string, fn: Function) {
+      handlers.set(event, fn)
+    },
+  }
+  apply(ctx)
+  assert.ok(crumbDef, 'crumb tool registered')
+
+  const out = await crumbDef.execute({}, { agent: { session: { header: { cwd: dir } } } })
+  // The auto hook would stay silent here, but an explicit request must still deliver.
+  assert.notEqual(out.text, '(no crumbs available)')
+  assert.equal(out.verified, true) // a curated pool crumb
+  assert.ok(out.id, 'pool crumb carries an id')
+})
+
 test('long-task hook drips pool crumbs, distinct, capped at 5', async (t) => {
   await loadPool() // prewarm the cache so drip bodies resolve on microtasks only
   const dir = repoWithConfig(CFG)

@@ -1,6 +1,6 @@
 {
   "name": "dsh-crumbs",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Fill dead waiting time: while a long task runs, surface one small, true, topic-relevant fun fact — never touching the agent's context or result.",
   "type": "module",
   "main": "src/index.ts",

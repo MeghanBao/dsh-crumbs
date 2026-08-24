@@ -1,7 +1,12 @@
 # Changelog
 
-## Unreleased
+## 0.3.0 — 2026-08-24
 
+- **Explicit requests always deliver.** The `crumb` tool and `/crumb` command now
+  fall back to the curated pool when the configured source yields nothing — so a
+  user who explicitly asks gets a crumb even under `source: model` on a host with
+  no model surface. The automatic long-task hook keeps its by-design silence in
+  that case (it never nags); only explicit requests are guaranteed a result.
 - **Real-runtime integration test.** `test/integration.dsh.test.ts` loads the plugin against the actual DeepSeek Harness libraries (cordis + dsh-tools + dsh-system-prompt) rather than a fake ctx: it installs via `ctx.plugin` (proving the tool schema passes the strict `defineTool` validator), invokes the `crumb` tool (fact + quiz + render), drives the long-task hook over the real event bus (drip + stop-on-return), and runs the model source through a mock `ctx.llm` stream (verifying the cheap-model preference). Skips cleanly when the peer libraries aren't installed.
 
 - **Honest notification surface.** `notify` now targets the real cordis surface — a named `ctx.logger` (with a fallback to the default logger) — instead of the fabricated `ctx.notify.info` / `ctx.ui.notify` shapes, which don't exist. A standard host has no "toast" API, so auto-surfaced crumbs currently land as **log lines**; a visible Web UI card needs a client asset (documented as future work).

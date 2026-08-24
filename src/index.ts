@@ -62,9 +62,20 @@ function sourceFor(config: CrumbsConfig): CrumbSource {
  * Pick one crumb via the configured source, avoiding recent repeats. Pool crumbs
  * are de-duplicated by id; model crumbs have no id, so recent texts are both fed
  * to the model (to steer it away) and used to reject and re-ask on a near-repeat.
+ *
+ * `guaranteePool` adds the curated pool as a final fallback. The automatic hook
+ * leaves it off (source `model` on a host with no model surface stays silent by
+ * design), but an EXPLICIT request — the `crumb` tool or `/crumb` command —
+ * turns it on so the user who asked always gets something.
  */
-async function nextCrumb(config: CrumbsConfig, topic?: string, mode: 'fact' | 'quiz' = 'fact') {
-  const source = sourceFor(config)
+async function nextCrumb(
+  config: CrumbsConfig,
+  topic?: string,
+  mode: 'fact' | 'quiz' = 'fact',
+  guaranteePool = false,
+) {
+  const base = sourceFor(config)
+  const source = guaranteePool ? autoSource(base, pool) : base
   const seedTags = seedFromText(topic)
   for (let i = 0; i < GENERATE_TRIES; i++) {
     const suggestion = await source.generate({ topic, seedTags, mode, excludeIds: recent, avoidTexts: recentText })
@@ -233,7 +244,9 @@ export function apply(ctx: Context) {
         const mode = args.mode === 'quiz' ? 'quiz' : 'fact'
         const cwd = (exec as any)?.agent?.session?.header?.cwd ?? process.cwd()
         const config = await loadConfig(cwd)
-        const result = await nextCrumb(config, args.topic, mode)
+        // Explicit request: always fall back to the pool so the user gets a crumb
+        // even under `source: model` on a host with no model surface.
+        const result = await nextCrumb(config, args.topic, mode, /* guaranteePool */ true)
         if (!result) {
           return { id: '', tags: [], text: '(no crumbs available)', mode, verified: true }
         }
