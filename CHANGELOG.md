@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- **Real-runtime integration test.** `test/integration.dsh.test.ts` loads the plugin against the actual DeepSeek Harness libraries (cordis + dsh-tools + dsh-system-prompt) rather than a fake ctx: it installs via `ctx.plugin` (proving the tool schema passes the strict `defineTool` validator), invokes the `crumb` tool (fact + quiz + render), drives the long-task hook over the real event bus (drip + stop-on-return), and runs the model source through a mock `ctx.llm` stream (verifying the cheap-model preference). Skips cleanly when the peer libraries aren't installed.
+
 - **Honest notification surface.** `notify` now targets the real cordis surface — a named `ctx.logger` (with a fallback to the default logger) — instead of the fabricated `ctx.notify.info` / `ctx.ui.notify` shapes, which don't exist. A standard host has no "toast" API, so auto-surfaced crumbs currently land as **log lines**; a visible Web UI card needs a client asset (documented as future work).
 - **Drip race fixed.** A crumb generation that finishes *after* the task has already returned no longer surfaces a late crumb or restarts the loop — the drip checks it's still live before notifying/rescheduling. This matters because model generation takes seconds and a task can finish mid-call.
 - **Cheaper model choice.** The native LLM caller no longer blindly takes the first discovered model; `preferModel` biases toward small/fast models and away from expensive reasoning/large ones (name heuristic — the host exposes no pricing). Output is also capped tighter (`maxTokens` 200 → 120) since a crumb is 1–2 sentences.
